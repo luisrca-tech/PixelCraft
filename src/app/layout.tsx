@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { globalStyle } from "~/styles/global";
-import ogImage from "./public/og-image.png"
+import ogImage from "/public/og-image.png"
 
 export const metadata: Metadata = {
   title: "PixelCraft",
