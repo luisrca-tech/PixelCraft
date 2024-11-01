@@ -7,12 +7,22 @@ import { Toaster } from "sonner";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { globalStyle } from "~/styles/global";
-
+import ogImage from "~/assets/images/og.png";
 export const metadata: Metadata = {
   title: "PixelCraft",
   description:
     "PixelCraft é uma solução avançada de gestão de RH desenvolvida em parceria com a T10, com o objetivo de otimizar o gerenciamento de horas e orçamento de projetos para os funcionários.",
   icons: [{ rel: "icon", url: "/favicon.png" }],
+   openGraph: {
+    images: [
+      {
+        url: ogImage.src,
+        width: 1200,
+        height: 630,
+        alt: "PixelCraft",
+      },
+    ],
+  },
 };
 
 type Props = React.PropsWithChildren;
