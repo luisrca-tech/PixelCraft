@@ -1,13 +1,13 @@
-import { type ReactNode } from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Provider } from "jotai";
 import { type Metadata } from "next";
-import FullScreenLoading from "~/components/widgets/FullScreenLoading";
-import { roboto } from "~/assets/fonts/fonts";
+import { type ReactNode } from "react";
 import { Toaster } from "sonner";
-import { TRPCReactProvider } from "~/trpc/react";
-import { ClerkProvider } from "@clerk/nextjs";
+import { roboto } from "~/assets/fonts/fonts";
+import FullScreenLoading from "~/components/widgets/FullScreenLoading";
 import { globalStyle } from "~/styles/global";
-import ogImage from "/public/og-image.png"
+import { TRPCReactProvider } from "~/trpc/react";
+import ogImage from "/public/og-image.png";
 
 export const metadata: Metadata = {
   title: "PixelCraft",
@@ -20,6 +20,18 @@ export const metadata: Metadata = {
         url: ogImage.src,
         width: 1200,
         height: 630,
+        alt: "PixelCraft",
+      },
+      {
+        url: ogImage.src,
+        width: 800,
+        height: 420,
+        alt: "PixelCraft",
+      },
+      {
+        url: ogImage.src,
+        width: 600,
+        height: 336,
         alt: "PixelCraft",
       },
     ],
