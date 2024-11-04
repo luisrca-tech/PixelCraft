@@ -11,5 +11,9 @@ export const Container = styled.div<FormContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: calc(100vh - 390px);
+  height: calc(100vh - 430px);
+
+  @media (min-width: 1024px) {
+    height: calc(100vh - 400px);
+  }
 `;

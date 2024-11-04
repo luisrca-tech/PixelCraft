@@ -1,59 +1,51 @@
-import { type ReactNode } from "react";
-import { Provider } from "jotai";
-import FullScreenLoading from "~/components/widgets/FullScreenLoading";
-import { roboto } from "~/assets/fonts/fonts";
-import { css } from "@linaria/core";
-import { Toaster } from "sonner";
-import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Provider } from "jotai";
+import { type Metadata } from "next";
+import { type ReactNode } from "react";
+import { Toaster } from "sonner";
+import { roboto } from "~/assets/fonts/fonts";
+import FullScreenLoading from "~/components/widgets/FullScreenLoading";
+import { globalStyle } from "~/styles/global";
+import { TRPCReactProvider } from "~/trpc/react";
+import ogImage from "/public/og-image.png";
+
+export const metadata: Metadata = {
+  title: "PixelCraft",
+  description:
+    "PixelCraft é uma solução avançada de gestão de RH desenvolvida em parceria com a T10, com o objetivo de otimizar o gerenciamento de horas e orçamento de projetos para os funcionários.",
+  icons: [{ rel: "icon", url: "/favicon.png" }],
+   openGraph: {
+    images: [
+      {
+        url: ogImage.src,
+        width: 1200,
+        height: 630,
+        alt: "PixelCraft",
+        type: "image/png",
+      },
+      {
+        url: ogImage.src,
+        width: 800,
+        height: 420,
+        alt: "PixelCraft",
+        type: "image/png",
+      },
+      {
+        url: ogImage.src,
+        width: 600,
+        height: 336,
+        alt: "PixelCraft",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 type Props = React.PropsWithChildren;
 
 function JotaiProvider({ children }: Props): JSX.Element {
   return <Provider>{children}</Provider>;
 }
-const globalStyle = css`
-  :root {
-    font-size: 62.5%;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  button,
-  a {
-    cursor: pointer;
-  }
-
-  body {
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    max-height: none;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #fffdfd;
-
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    button,
-    span,
-    strong {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  }
-`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

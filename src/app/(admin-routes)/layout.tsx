@@ -5,6 +5,8 @@ import Header from "~/components/surfaces/header";
 
 const Container = styled.div`
   width: 100%;
+  overflow-y: hidden;
+  padding-bottom: 2px;
 `;
 
 type AuthHeaderProps = {

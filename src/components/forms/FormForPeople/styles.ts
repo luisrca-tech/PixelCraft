@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-  height: calc(100vh - 34rem);
+  height: calc(100vh - 37rem);
 `;
 
 export const RoleAndPerson = styled.div`
