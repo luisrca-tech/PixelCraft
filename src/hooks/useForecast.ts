@@ -1,8 +1,6 @@
 import {
   addMonths,
-  differenceInDays,
   differenceInMonths,
-  endOfMonth,
   getDaysInMonth,
   isSameMonth,
   startOfMonth,
@@ -53,42 +51,33 @@ export function useForecast() {
       const taskStartDate = new Date(task.taskStartDate);
       const taskDueDate = new Date(task.taskDueDate);
       const startMonth = startOfMonth(taskStartDate);
-      const endMonth = endOfMonth(taskDueDate);
+
+      const fullMonthValue = Number((hoursNumber * valueByHourNumber).toFixed(2));
 
       const fullMonths = differenceInMonths(taskDueDate, taskStartDate);
+      
       for (let i = 0; i <= fullMonths; i++) {
         const currentMonth = addMonths(startMonth, i);
         const monthKey = `${currentMonth.getFullYear()}-${currentMonth.getMonth() + 1}`;
+        const daysInCurrentMonth = getDaysInMonth(currentMonth);
 
-        if (isSameMonth(taskStartDate, taskDueDate)) {
-          const daysWorked = differenceInDays(taskDueDate, taskStartDate);
-          const daysInMonth = getDaysInMonth(taskStartDate);
-          const monthlyValue =
-            (daysWorked / daysInMonth) * hoursNumber * valueByHourNumber;
+        if (i === 0) {
+          const remainingDays = daysInCurrentMonth - taskStartDate.getDate() + 1;
+          const percentage = Number((remainingDays / daysInCurrentMonth).toFixed(4));
+          const monthValue = Number((fullMonthValue * percentage).toFixed(2));
+          monthlyForecasts[monthKey] = Number(((monthlyForecasts[monthKey] || 0) + monthValue).toFixed(2));
+          continue;
+        }
 
-          monthlyForecasts[monthKey] =
-            (monthlyForecasts[monthKey] || 0) + monthlyValue;
-        } else if (taskStartDate.getDate() > 1 && i === 0) {
-          const daysInMonth = getDaysInMonth(taskStartDate);
-          const monthlyValueStart =
-            ((daysInMonth - taskStartDate.getDate()) / daysInMonth) *
-            hoursNumber *
-            valueByHourNumber;
+        if (i === fullMonths && !isSameMonth(taskStartDate, taskDueDate)) {
+          const percentage = Number((taskDueDate.getDate() / daysInCurrentMonth).toFixed(4));
+          const monthValue = Number((fullMonthValue * percentage).toFixed(2));
+          monthlyForecasts[monthKey] = Number(((monthlyForecasts[monthKey] || 0) + monthValue).toFixed(2));
+          continue;
+        }
 
-          monthlyForecasts[monthKey] =
-            (monthlyForecasts[monthKey] || 0) + monthlyValueStart;
-        } else if (taskDueDate.getDate() < 31 && i === fullMonths) {
-          const daysInMonth = getDaysInMonth(endMonth);
-          const daysWorked = daysInMonth - taskDueDate.getDate();
-          const monthlyValueEnd =
-            (daysWorked / daysInMonth) * hoursNumber * valueByHourNumber;
-
-          monthlyForecasts[monthKey] =
-            (monthlyForecasts[monthKey] || 0) + monthlyValueEnd;
-        } else {
-          // Para meses completos entre a data de início e a data de término
-          monthlyForecasts[monthKey] =
-            (monthlyForecasts[monthKey] || 0) + hoursNumber * valueByHourNumber;
+        if (!isSameMonth(currentMonth, taskStartDate) && !isSameMonth(currentMonth, taskDueDate)) {
+          monthlyForecasts[monthKey] = Number(((monthlyForecasts[monthKey] || 0) + fullMonthValue).toFixed(2));
         }
       }
     });
