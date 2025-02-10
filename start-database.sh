@@ -48,8 +48,8 @@ fi
 
 docker run -d \
   --name $DB_CONTAINER_NAME \
-  -e COCKROACH_USER="root" \
-  -e COCKROACH_PASSWORD="$DB_PASSWORD" \
-  -e COCKROACH_DATABASE=projeto-t10 \
-  -p "$DB_PORT":26257 \
-  cockroachdb/cockroach:v23.2.5 start-single-node --insecure && echo "Database container '$DB_CONTAINER_NAME' was successfully created"
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD="$DB_PASSWORD" \
+  -e POSTGRES_DB=projeto-t10 \
+  -p "$DB_PORT":5432 \
+  postgres:15 && echo "Database container '$DB_CONTAINER_NAME' was successfully created"
