@@ -9,6 +9,7 @@ import { type TasksInfosType } from "~/server/types/Clickup.type";
 import { ForecastContainer, ForecastGrid, ForecastItem } from "./styles";
 
 import "keen-slider/keen-slider.min.css";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 export function MonthlyForecastTable() {
   const { getTasksInfos } = useTasksOfProject();
@@ -20,8 +21,9 @@ export function MonthlyForecastTable() {
   } = useForecast();
   const monthlyForecasts = calculateMonthlyForecasts(tasksCustomFields);
   const { earliestStartDate, latestDueDate } =
-  findEarliestAndLatestDates(tasksCustomFields);
-  const totalMonths = calculateTotalMonths(earliestStartDate, latestDueDate) + 1
+    findEarliestAndLatestDates(tasksCustomFields);
+  const totalMonths =
+    calculateTotalMonths(earliestStartDate, latestDueDate) + 1;
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -32,13 +34,23 @@ export function MonthlyForecastTable() {
 
   return (
     <ForecastContainer>
-      <ForecastGrid ref={sliderRef} className="keen-slider">
+      <h3>
+        Previsão de gastos <FaArrowAltCircleRight />
+      </h3>
+      <ForecastGrid
+        ref={sliderRef}
+        className="keen-slider"
+      >
         {Array.from({ length: totalMonths + 1 }).map((_, idx) => {
           const currentMonth = addMonths(earliestStartDate, idx);
-          const monthKey = `${currentMonth.getFullYear()}-${currentMonth.getMonth() + 1
+          const monthKey = `${currentMonth.getFullYear()}-${
+            currentMonth.getMonth() + 1
             }`;
-          return (
-            <ForecastItem className="keen-slider__slide" key={idx}>
+            return (
+              <ForecastItem
+              className="keen-slider__slide"
+              key={idx}
+              >
               <span>
                 {format(currentMonth, "MMMM yyyy", {
                   locale: ptBR,

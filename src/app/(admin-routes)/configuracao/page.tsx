@@ -34,8 +34,6 @@ export default function Configuration() {
   const getClickUpKeys = api.clickup.getClickupKeys.useQuery({ userId });
   const submitIsDisabled = !!errors.listId?.message || !!errors.pk?.message;
 
-  console.log(getClickUpKeys.data);
-
   const onSubmit = async ({ pk, listId }: configurationType) => {
     try {
       await upsertClickUpKeys.mutateAsync({
