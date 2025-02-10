@@ -8,7 +8,7 @@ import { poppins } from "~/assets/fonts/fonts";
 export default function Projetos() {
   return (
     <Container>
-      <StatsSection>
+      <StatsSection className="mobile-only">
         <StatCard>
           <div className="stat-icon">
             <IoStatsChart size={24} />

@@ -6,15 +6,31 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin: 0 auto;
+  padding: 0 1rem;
 
   h1 {
     font-size: 1rem;
   }
 
+  .mobile-only {
+    @media (max-width: 1024px) {
+      display: none;
+    }
+  }
+
   @media (min-width: 1024px) {
+    max-width: 1440px;
+    padding: 0 4rem;
+    gap: 4rem;
+
     h1 {
       font-size: 1.25rem;
     }
+  }
+
+  @media (min-width: 1536px) {
+    padding: 0 6rem;
   }
 `;
 
@@ -22,7 +38,6 @@ export const StatsSection = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  padding: 0 1rem;
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
@@ -121,10 +136,8 @@ export const ProjectsSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 0 1rem;
 
   @media (min-width: 1024px) {
-    padding: 0;
     gap: 2rem;
 
     > div {
