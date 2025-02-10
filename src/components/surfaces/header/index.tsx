@@ -10,6 +10,8 @@ import {
   CloseContainer,
   Container,
   MenuButton,
+  NavLink,
+  NavigationContainer,
   OptionsContainer,
   SidebarContainer,
   TitleContainer,
@@ -25,108 +27,124 @@ export default function Header() {
   const searchParams = useSearchParams();
   const projectId = searchParams.get("projectId");
 
-  const handleMenu = () => {
-    setShowModal((current) => !current);
-  };
+  const isAuthPage = currentPath.startsWith("/autenticacao");
+  const isPersonsPage = currentPath.startsWith("/pessoas");
+  const isProjectsPage = currentPath.startsWith("/projetos");
 
-  const isAuthPage = () => {
-    return currentPath.startsWith("/autenticacao");
-  };
-
-  const isPersonsPage = currentPath.startsWith("/pessoas") ? true : false;
-
-  const isProjectsPage = currentPath.startsWith("/projetos") ? true : false;
-
-  const noRenderIconsAndSidebar = () => {
-    if (isAuthPage()) {
-      return (
-        <>
-          <Container isAutentication={true}>
-            <TitleContainer className={poppins.className}>
-              <h1>Pixel Craft</h1>
-            </TitleContainer>
-          </Container>
-        </>
-      );
-    }
-    return null;
-  };
-
-  const renderIconsAndSidebar = () => {
-    if (!isAuthPage()) {
-      return (
-        <>
-          <SidebarContainer isShow={showModal}>
-            <UserButton userProfileMode="navigation" userProfileUrl="" />
-            <CloseContainer>
-              <button onClick={() => setShowModal(false)}>
-                <span className={poppins.className}>Fechar</span>
-                <IoCloseSharp size={24} />
-              </button>
-            </CloseContainer>
-            <OptionsContainer>
-              <ButtonContainer>
-                <button
-                  onClick={() => router.push("/projetos")}
-                  className={poppins.className}
-                >
-                  Projetos
-                </button>
-              </ButtonContainer>
-
-              <ButtonContainer>
-                <button
-                  onClick={() => router.push("/configuracao")}
-                  className={poppins.className}
-                >
-                  Configuração
-                </button>
-              </ButtonContainer>
-
-              <ButtonContainer disabled>
-                <button className={poppins.className}>Mobilizados</button>
-              </ButtonContainer>
-              <ButtonContainer disabled>
-                <button className={poppins.className}>Férias</button>
-              </ButtonContainer>
-            </OptionsContainer>
-          </SidebarContainer>
-          <Container isAutentication={false}>
-            <ButtonsContainer>
-              <MenuButton onClick={handleMenu}>
-                <IoMenu size={24} />
-              </MenuButton>
-            </ButtonsContainer>
-            <TitleContainer>
-              {isPersonsPage ? (
-                <h1>Pessoas</h1>
-              ) : (
-                <h1 className={poppins.className}>
-                  {!projectId ? "Projetos" : "Projeto"}
-                </h1>
-              )}
-            </TitleContainer>
-            <ButtonsContainer>
-              {!!isProjectsPage && (
-                <AddProjectButton
-                  onClick={() => (window.location.href = "/projeto")}
-                >
-                  <IoAdd size={24} />
-                </AddProjectButton>
-              )}
-            </ButtonsContainer>
-          </Container>
-        </>
-      );
-    }
-    return null;
-  };
+  if (isAuthPage) {
+    return (
+      <Container isAutentication={true}>
+        <TitleContainer className={poppins.className}>
+          <h1>Pixel Craft</h1>
+        </TitleContainer>
+      </Container>
+    );
+  }
 
   return (
     <>
       {showModal && <Modal onClickCallback={() => setShowModal(false)} />}
-      {noRenderIconsAndSidebar()}
-      {renderIconsAndSidebar()}
+      <SidebarContainer isShow={showModal}>
+        <UserButton
+          userProfileMode="navigation"
+          userProfileUrl=""
+        />
+        <CloseContainer>
+          <button onClick={() => setShowModal(false)}>
+            <span className={poppins.className}>Fechar</span>
+            <IoCloseSharp size={24} />
+          </button>
+        </CloseContainer>
+        <OptionsContainer>
+          <ButtonContainer>
+            <button
+              onClick={() => {
+                router.push("/projetos");
+                setShowModal(false);
+              }}
+              className={poppins.className}
+            >
+              Projetos
+            </button>
+          </ButtonContainer>
+
+          <ButtonContainer>
+            <button
+              onClick={() => {
+                router.push("/configuracao");
+                setShowModal(false);
+              }}
+              className={poppins.className}
+            >
+              Configuração
+            </button>
+          </ButtonContainer>
+
+          <ButtonContainer disabled>
+            <button className={poppins.className}>Mobilizados</button>
+          </ButtonContainer>
+          <ButtonContainer disabled>
+            <button className={poppins.className}>Férias</button>
+          </ButtonContainer>
+        </OptionsContainer>
+      </SidebarContainer>
+
+      <Container isAutentication={false}>
+        <ButtonsContainer className="mobile-only">
+          <MenuButton onClick={() => setShowModal(true)}>
+            <IoMenu size={24} />
+          </MenuButton>
+        </ButtonsContainer>
+        <TitleContainer className={`${poppins.className} mobile-only`}>
+          <h1>
+            {isPersonsPage ? "Pessoas" : !projectId ? "Projetos" : "Projeto"}
+          </h1>
+          </TitleContainer>
+        <div className="desktop-only">
+          <UserButton
+            userProfileMode="navigation"
+            userProfileUrl=""
+          />
+        </div>
+        <NavigationContainer>
+          <NavLink
+            active={isProjectsPage}
+            onClick={() => router.push("/projetos")}
+            className={poppins.className}
+          >
+            Projetos
+          </NavLink>
+          <NavLink
+            active={currentPath === "/configuracao"}
+            onClick={() => router.push("/configuracao")}
+            className={poppins.className}
+          >
+            Configuração
+          </NavLink>
+          <NavLink
+            disabled
+            className={poppins.className}
+          >
+            Mobilizados
+          </NavLink>
+          <NavLink
+            disabled
+            className={poppins.className}
+          >
+            Férias
+          </NavLink>
+        </NavigationContainer>
+
+        <ButtonsContainer>
+          {isProjectsPage && (
+            <AddProjectButton
+              onClick={() => (window.location.href = "/projeto")}
+            >
+              <IoAdd size={24} />
+            </AddProjectButton>
+          )}
+        </ButtonsContainer>
+      </Container>
     </>
   );
 }

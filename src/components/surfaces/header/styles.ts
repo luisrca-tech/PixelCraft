@@ -1,12 +1,17 @@
 import { styled } from "@linaria/react";
 import { theme } from "~/app/styles/theme";
 
-type SidebaContainerType = {
+type SidebarContainerType = {
   isShow: boolean;
 };
 
 type ContainerType = {
   isAutentication: boolean;
+};
+
+type NavLinkType = {
+  active?: boolean;
+  disabled?: boolean;
 };
 
 type ButtonContainerType = {
@@ -22,16 +27,31 @@ export const Container = styled.header<ContainerType>`
   height: 6rem;
   position: fixed;
   top: 0;
-  background-color: white;
+  background-color: ${theme.COLORS.WHITE};
   z-index: 3;
+  padding: 0 2rem;
+
+  .mobile-only {
+    @media (min-width: 1024px) {
+      display: none;
+      overflow: hidden;
+      width: 0;
+    }
+  }
+
+  .desktop-only {
+    @media (max-width: 1023px) {
+      display: none;
+      overflow: hidden;
+      width: 0;
+    }
+  }
 `;
 
 export const ButtonsContainer = styled.div`
-  width: 4.8rem;
-  height: 4.8rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 1rem;
 `;
 
 export const MenuButton = styled.button`
@@ -39,6 +59,7 @@ export const MenuButton = styled.button`
   height: 2.4rem;
   border: none;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 export const TitleContainer = styled.div`
@@ -53,7 +74,21 @@ export const TitleContainer = styled.div`
   }
 `;
 
-export const SidebarContainer = styled.div<SidebaContainerType>`
+export const NavigationContainer = styled.nav`
+  display: none;
+  width: 0;
+  overflow: hidden;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    width: auto;
+    overflow: visible;
+    align-items: center;
+    gap: 2rem;
+  }
+`;
+
+export const SidebarContainer = styled.div<SidebarContainerType>`
   padding: 3.75rem 5.625rem 0 1.938rem;
   display: flex;
   width: 66vw;
@@ -66,6 +101,10 @@ export const SidebarContainer = styled.div<SidebaContainerType>`
   left: ${(props) => (props.isShow ? `0` : `-66vw`)};
   top: 0;
   transition: left 0.3s;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
 `;
 
 export const OptionsContainer = styled.div`
@@ -88,6 +127,7 @@ export const CloseContainer = styled.div`
     display: flex;
     gap: 10px;
     align-items: center;
+    cursor: pointer;
     > span {
       color: ${theme.COLORS.PRIMARY};
       font-size: 1rem;
@@ -97,16 +137,6 @@ export const CloseContainer = styled.div`
       color: ${theme.COLORS.PRIMARY};
     }
   }
-`;
-
-export const AddProjectButton = styled.button`
-  width: 2.4rem;
-  height: 2.4rem;
-  border: none;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const ButtonContainer = styled.div<ButtonContainerType>`
@@ -123,5 +153,50 @@ export const ButtonContainer = styled.div<ButtonContainerType>`
     border: none;
     opacity: ${(props) => (props.disabled ? "0.5" : "1")};
     pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+    cursor: pointer;
+  }
+`;
+
+export const NavLink = styled.button<NavLinkType>`
+  background-color: transparent;
+  color: ${theme.COLORS.DARK};
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  opacity: ${(props) => (props.disabled ? "0.5" : "1")};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: ${theme.COLORS.PRIMARY};
+    transform: scaleX(${(props) => (props.active ? 1 : 0)});
+    transition: transform 0.3s ease;
+  }
+
+  &:hover:not(:disabled):after {
+    transform: scaleX(1);
+  }
+`;
+
+export const AddProjectButton = styled.button`
+  width: 2.4rem;
+  height: 2.4rem;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.COLORS.PRIMARY};
   }
 `;
