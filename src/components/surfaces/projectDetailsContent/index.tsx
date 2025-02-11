@@ -10,9 +10,10 @@ import { rangesAtom } from "~/@atom/ProjectStates/rangesAtom";
 import { checkedAtom } from "~/@atom/ProjectStates/checkedAtom";
 import { FormContainer } from "./FormContainer";
 import { useGetMinAndMaxDates } from "~/utils/functions/useGetMinAndMaxDates";
-
+import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 export function ProjectDetailsContent() {
   const [isDatePickerOpen] = useAtom(isDatePickerOpenAtom);
+  const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
   const [checked] = useAtom(checkedAtom);
   const [ranges] = useAtom(rangesAtom);
   const minAndMaxDates = useGetMinAndMaxDates(ranges);
@@ -23,7 +24,7 @@ export function ProjectDetailsContent() {
   return (
     <Container>
       <ProjectHeader.Root inProjectPage projectDates={profileHeaderInfo}>
-        <ProjectHeader.BoxImage />
+        <ProjectHeader.BoxImage projectName={projectSelectedValue?.selectedValue[`projectRow-text`]} />
         <InputsContent>
           <ProjectHeader.EditProject checked={checked} />
           <ProjectHeader.DateContainer

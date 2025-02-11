@@ -1,17 +1,24 @@
-import { useAtom } from "jotai";
 import { Container } from "./styles";
-import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function HeaderBoxProfileImage() {
-  const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
-  const [selectedFile] = useState<File | null>(null);
-  const words =
-    projectSelectedValue?.selectedValue[`projectRow-text`]?.split(" ");
-  const initials = words?.map((word) => word.charAt(0));
+interface HeaderBoxProfileImageProps {
+  projectName?: string;
+}
 
-  const initialsString = initials?.join("");
+export default function HeaderBoxProfileImage({
+  projectName,
+}: HeaderBoxProfileImageProps) {
+  const [selectedFile] = useState<File | null>(null);
+
+  const getInitials = (name?: string) => {
+    if (!name) return "";
+    const words = name.split(" ");
+    const initials = words.map((word) => word.charAt(0));
+    return initials.join("").toUpperCase();
+  };
+
+  const initialsString = getInitials(projectName);
 
   return (
     <Container>
@@ -21,7 +28,7 @@ export default function HeaderBoxProfileImage() {
           alt="Imagem selecionada"
         />
       ) : (
-        <span>{initialsString?.toUpperCase()}</span>
+        <span>{initialsString}</span>
       )}
     </Container>
   );

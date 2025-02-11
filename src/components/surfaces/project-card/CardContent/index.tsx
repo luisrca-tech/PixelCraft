@@ -2,10 +2,8 @@
 
 import { poppins } from "~/app/fonts";
 import { CardContentDescriptions, Container } from "./styles";
-import GoogleImage from "/public/images/google img.svg";
-
-import Image, { type StaticImageData } from "next/image";
 import { type OptionType } from "~/server/types/Clickup.type";
+import { ProjectHeader } from "../../ProjectHeader";
 type CardContentType = {
   project: OptionType;
   dates:
@@ -23,11 +21,7 @@ export function CardContent({ project, dates }: CardContentType) {
   }
   return (
     <Container>
-      <Image
-        src={GoogleImage as StaticImageData}
-        alt="Imagem logo da google"
-        color="#F7F2FA"
-      />
+      <ProjectHeader.BoxImage projectName={project.label} />
       <CardContentDescriptions className={poppins.className}>
         <strong>{project.label}</strong>
 

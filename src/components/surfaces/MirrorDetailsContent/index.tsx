@@ -15,6 +15,7 @@ import {
 } from "./styles";
 import { checkedAtom } from "~/@atom/ProjectStates/checkedAtom";
 import { useAvailableFields } from "~/utils/functions/useAvailableFields";
+import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 
 export function MirrorDetailsContent() {
   const [checked] = useAtom(checkedAtom);
@@ -26,10 +27,13 @@ export function MirrorDetailsContent() {
     useGetBudgetAndProfileInfos(tasksCustomFields);
   const budgetInfo = { totalDays, totalHours, totalValue };
   const profileHeaderInfo = { maxEndDateObj, minStartDateObj };
+  const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
   return (
     <Container>
       <ProjectHeader.Root>
-        <ProjectHeader.BoxImage />
+        <ProjectHeader.BoxImage
+          projectName={projectSelectedValue?.selectedValue[`projectRow-text`]}
+        />
         <InputsContent>
           <ProjectHeader.EditProject checked={checked} />
           <ProjectHeader.DateContainer

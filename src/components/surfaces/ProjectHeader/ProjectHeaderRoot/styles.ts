@@ -28,7 +28,7 @@ export const Container = styled.div`
   }
 
   @media (min-width: 1024px) {
-    padding: 0 9%;
+    padding: 0 5%;
   }
 `;
 
