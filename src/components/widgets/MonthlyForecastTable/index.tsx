@@ -9,7 +9,7 @@ import { type TasksInfosType } from "~/server/types/Clickup.type";
 import { ForecastContainer, ForecastGrid, ForecastItem } from "./styles";
 
 import "keen-slider/keen-slider.min.css";
-import { FaArrowAltCircleRight } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 export function MonthlyForecastTable() {
   const { getTasksInfos } = useTasksOfProject();
@@ -24,7 +24,7 @@ export function MonthlyForecastTable() {
     findEarliestAndLatestDates(tasksCustomFields);
   const totalMonths =
     calculateTotalMonths(earliestStartDate, latestDueDate) + 1;
-  const [sliderRef] = useKeenSlider({
+  const [sliderRef, instanceRef] = useKeenSlider({
     slides: {
       perView: 3,
       number: totalMonths,
@@ -32,11 +32,33 @@ export function MonthlyForecastTable() {
     },
   });
 
+  function handlePrevMonth() {
+    instanceRef.current?.prev();
+  }
+
+  function handleNextMonth() {
+    instanceRef.current?.next();
+  }
+
   return (
     <ForecastContainer>
-      <h3>
-        Previsão de gastos <FaArrowAltCircleRight />
-      </h3>
+      <div>
+        <button
+          type="button"
+          onClick={handlePrevMonth}
+          className="desktop-only"
+        >
+          <FaArrowAltCircleLeft />
+        </button>
+        <h3 className="desktop-only">Previsão de gastos</h3>
+        <button
+          type="button"
+          onClick={handleNextMonth}
+          className="desktop-only"
+        >
+          <FaArrowAltCircleRight />
+        </button>
+      </div>
       <ForecastGrid
         ref={sliderRef}
         className="keen-slider"
@@ -45,12 +67,12 @@ export function MonthlyForecastTable() {
           const currentMonth = addMonths(earliestStartDate, idx);
           const monthKey = `${currentMonth.getFullYear()}-${
             currentMonth.getMonth() + 1
-            }`;
-            return (
-              <ForecastItem
+          }`;
+          return (
+            <ForecastItem
               className="keen-slider__slide"
               key={idx}
-              >
+            >
               <span>
                 {format(currentMonth, "MMMM yyyy", {
                   locale: ptBR,
@@ -62,7 +84,7 @@ export function MonthlyForecastTable() {
                 ]?.toLocaleString("pt-BR", {
                   style: "currency",
                   currency: "BRL",
-                }) || ""}
+                }) || "0,00 BRL"}
               </span>
             </ForecastItem>
           );

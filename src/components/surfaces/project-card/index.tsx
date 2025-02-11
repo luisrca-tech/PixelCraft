@@ -10,13 +10,15 @@ import { CardContent } from "./CardContent";
 import { CardContentSkeleton } from "./CardContentSkeleton";
 import { ProgressBar } from "./ProgressBar";
 import { Container, ProjectContainer } from "./styles";
+import { NotFound } from "~/components/widgets/NotFound";
 
 export function ProjectsCards() {
   const { session } = useSession();
   const userId = session?.user.id;
   const router = useRouter();
 
-  const { filteredTasksByProject, isLoading } = useFilteredTasksByProject();
+  const { filteredTasksByProject, isLoading, isError } =
+    useFilteredTasksByProject();
 
   const getClickupKeys = api.clickup.getClickupKeys.useQuery({
     userId: userId ?? "",
@@ -30,7 +32,6 @@ export function ProjectsCards() {
       ) {
         showToast("error", "Não encontramos PK ou ListId cadastrados");
       }
-      router.push("/configuracao");
     }, 2000);
 
     if (
@@ -46,6 +47,15 @@ export function ProjectsCards() {
     router.push(`/espelho?projectId=${projectId}`);
   }
 
+  if (isError) {
+    return (
+      <NotFound
+        message="Nenhum projeto encontrado, por favor, verifique suas configurações!"
+        buttonAction={() => router.push("/configuracao")}
+        buttonText="Ir para configuração"
+      />
+    );
+  }
   return (
     <Container>
       {!isLoading ? (
@@ -55,7 +65,10 @@ export function ProjectsCards() {
               key={project.id}
               onClick={() => HandleClickProjectCard(project.id)}
             >
-              <CardContent project={project} dates={dates} />
+              <CardContent
+                project={project}
+                dates={dates}
+              />
 
               <ProgressBar project={project} />
             </ProjectContainer>

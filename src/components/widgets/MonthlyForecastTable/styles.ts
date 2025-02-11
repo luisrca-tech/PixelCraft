@@ -8,6 +8,34 @@ export const ForecastContainer = styled.div`
   gap: 0.5rem;
   cursor: grab;
 
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .desktop-only {
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+  }
+
+  button {
+    cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    border: none;
+  }
+
   h3 {
     font-size: 1.25rem;
     font-weight: 600;
@@ -26,46 +54,16 @@ export const CarouselHeader = styled.div`
   padding: 0.5rem 0;
 `;
 
-export const NavigationButtons = styled.div`
-  display: flex;
-  gap: 0.25rem;
-
-  button {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 1px solid ${theme.COLORS.LIGHT};
-    background: ${theme.COLORS.WHITE};
-    color: ${theme.COLORS.PRIMARY};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background: ${theme.COLORS.PRIMARY}10;
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  }
-`;
-
 export const ForecastGrid = styled.div`
   width: 100%;
   position: relative;
 `;
 
 export const ForecastItem = styled.div`
-  background: ${theme.COLORS.WHITE};
-  border: 1px solid ${theme.COLORS.LIGHT};
-  border-radius: 8px;
-  padding: 0.75rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 0.25rem;
   transition: transform 0.2s ease;
 
@@ -95,5 +93,12 @@ export const ForecastItem = styled.div`
     span:last-child {
       font-size: 1rem;
     }
+  }
+
+  @media (min-width: 1024px) {
+    background: ${theme.COLORS.WHITE};
+    border: 1px solid ${theme.COLORS.LIGHT};
+    border-radius: 8px;
+    padding: 0.5rem;
   }
 `;

@@ -7,6 +7,10 @@ export const Container = styled.div<ContainerProps>`
   display: ${(props) => (props.checked ? `flex` : `none`)};
   width: 100%;
   align-items: center;
+
+  @media (min-width: 1024px) {
+    font-size: 1.25rem;
+  }
 `;
 export const DatesContainer = styled.div`
   display: flex;
@@ -18,6 +22,10 @@ export const DatesContainer = styled.div`
   font-weight: Regular;
 
   > p {
-    font-size: 14px;
+    font-size: 0.875rem;
+
+    @media (min-width: 1024px) {
+      font-size: 1.25rem;
+    }
   }
 `;

@@ -53,7 +53,7 @@ export default function Configuration() {
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {getClickUpKeys.isPending ? (
+        {getClickUpKeys.isLoading ? (
           <Skeleton width="328px" height="40px" />
         ) : (
           <Input
@@ -68,7 +68,7 @@ export default function Configuration() {
         <ErrorMessage>
           {errors.listId?.message && errors.listId?.message}
         </ErrorMessage>
-        {getClickUpKeys.isPending ? (
+        {getClickUpKeys.isLoading ? (
           <Skeleton width="328px" height="40px" />
         ) : (
           <Input
@@ -85,7 +85,7 @@ export default function Configuration() {
           loading={isSubmitting}
           text="Salvar"
           type="submit"
-          disabled={submitIsDisabled || getClickUpKeys.isPending}
+          disabled={submitIsDisabled || getClickUpKeys.isLoading}
         />
       </Form>
     </Container>

@@ -99,7 +99,7 @@ export default function Header() {
           <h1>
             {isPersonsPage ? "Pessoas" : !projectId ? "Projetos" : "Projeto"}
           </h1>
-          </TitleContainer>
+        </TitleContainer>
         <div className="desktop-only">
           <UserButton
             userProfileMode="navigation"
@@ -136,13 +136,11 @@ export default function Header() {
         </NavigationContainer>
 
         <ButtonsContainer>
-          {isProjectsPage && (
             <AddProjectButton
               onClick={() => (window.location.href = "/projeto")}
             >
               <IoAdd size={24} />
             </AddProjectButton>
-          )}
         </ButtonsContainer>
       </Container>
     </>

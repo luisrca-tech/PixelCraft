@@ -21,7 +21,7 @@ export const globalStyle = css`
     overflow-x: hidden;
     overflow-y: hidden;
     max-height: none;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

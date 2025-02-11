@@ -100,12 +100,12 @@ export function useFilteredTasksByProject() {
         "Erro ao buscar custom fields!",
         "Configura se PK e ListId estão cadastrados corretamente."
       );
-      router.push("/configuracao");
     }
   }, [router, getCustomField.error]);
 
   return {
     filteredTasksByProject,
     isLoading: getCustomField.isLoading || getTasks.isLoading,
+    isError: getCustomField.error || getTasks.error,
   };
 }

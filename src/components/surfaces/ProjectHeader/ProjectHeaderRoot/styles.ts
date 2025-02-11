@@ -4,6 +4,7 @@ import { styled } from "@linaria/react";
 export const Container = styled.div`
   width: 100%;
   height: 5rem;
+  padding: 0 1rem;
   background: ${theme.COLORS.SECONDARY_EXTRA_LIGTH};
   display: flex;
   justify-content: center;
@@ -24,6 +25,10 @@ export const Container = styled.div`
     font-size: 1rem;
     font-weight: 600;
     color: ${theme.COLORS.SECONDARY_DARK};
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 9%;
   }
 `;
 
