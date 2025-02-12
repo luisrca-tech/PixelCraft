@@ -1,13 +1,18 @@
 type RowSpanTypes = {
   taskCustomField: string | number | string[];
   checked?: boolean;
+  centralized?: boolean;
 };
 
 import { Span, Container } from "./styles";
-export function RowSpan({ taskCustomField, checked }: RowSpanTypes) {
+export function RowSpan({
+  taskCustomField,
+  checked,
+  centralized,
+}: RowSpanTypes) {
   return (
     <Container checked={checked}>
-      <Span>{taskCustomField}</Span>
+      <Span centralized={centralized}>{taskCustomField}</Span>
     </Container>
   );
 }

@@ -21,8 +21,11 @@ export function TableData({ tasksCustomFields }: TableDataProps) {
           />
           {!checked ? (
             <>
-              <Row.Span taskCustomField={taskCustomFields.hours} />
-              <Row.Span taskCustomField={taskCustomFields.valueByHour} />
+              <Row.Span taskCustomField={taskCustomFields.hours} centralized />
+              <Row.Span
+                taskCustomField={taskCustomFields.valueByHour}
+                centralized
+              />
             </>
           ) : (
             <Row.CalendarValues taskCustomFields={taskCustomFields} />

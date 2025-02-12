@@ -4,6 +4,9 @@ import { theme } from "~/app/styles/theme";
 type ContainerProps = {
   checked?: boolean;
 };
+type SpanProps = {
+  centralized?: boolean
+}
 export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
@@ -13,8 +16,11 @@ export const Container = styled.div<ContainerProps>`
   max-width: 100%;
   border-radius: 60px;
   overflow: hidden;
+
+
+
 `;
-export const Span = styled.span`
+export const Span = styled.span< SpanProps>`
   font-size: 1rem;
   color: ${theme.COLORS.SECONDARY_DARK};
   line-height: 24px;
@@ -26,4 +32,5 @@ export const Span = styled.span`
   overflow: hidden;
   font-weight: 500;
   max-width: 100%;
+  text-align: ${(props) => props.centralized ? "center" : "start"};
 `;
