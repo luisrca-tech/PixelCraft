@@ -1,16 +1,20 @@
 import { styled } from "@linaria/react";
 
 export const Container = styled.div`
+  margin-top: 12.5rem;
+  padding: 0 5%;
+  max-width: none;
   width: 100%;
+  height: 100%;
   display: flex;
-
+  gap: 1rem;
   flex-direction: column;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  margin-top: 13.594rem;
+  align-items: center;
+  justify-content: center;
 
-  h1 {
-    font-size: 1rem;
+  @media(min-width: 1600px){
+   
+    padding: 0;
   }
 `;
 
