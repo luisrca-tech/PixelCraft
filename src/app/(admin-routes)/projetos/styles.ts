@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 2rem;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
 
   h1 {
     font-size: 1rem;
@@ -141,8 +141,12 @@ export const ProjectsSection = styled.div`
     gap: 2rem;
 
     > div {
+      
+      @media(min-width:1440px){
+        grid-template-columns: 1fr 1fr 1fr;
+      };
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr ;
       width: 100%;
       gap: 2rem;
       transition: all 0.3s ease-in-out;
@@ -162,4 +166,6 @@ export const ProjectsSection = styled.div`
       }
     }
   }
+
+  
 `;

@@ -7,6 +7,7 @@ interface FormContainerProps {
 export const MainContainer = styled.div`
   margin-top: 12.5rem;
   padding: 0 5%;
+  max-width: none;
   width: 100%;
   height: 100%;
   display: flex;
@@ -14,6 +15,11 @@ export const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media(min-width: 1600px){
+   
+    padding: 0;
+  }
 `;
 
 export const TableContainer = styled.div<FormContainerProps>`
@@ -40,6 +46,8 @@ export const Container = styled.form`
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const InputsContent = styled.div`

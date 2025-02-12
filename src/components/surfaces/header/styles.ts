@@ -21,6 +21,7 @@ type ButtonContainerType = {
 export const Container = styled.header<ContainerType>`
   width: 100%;
   display: flex;
+  max-width: 90rem;
   align-items: center;
   justify-content: ${(props) =>
     props.isAutentication ? "center" : "space-between"};
@@ -29,7 +30,12 @@ export const Container = styled.header<ContainerType>`
   top: 0;
   background-color: ${theme.COLORS.WHITE};
   z-index: 3;
-  padding: 0 2rem;
+  padding: 0 5%;
+
+  @media(min-width: 1600px){
+   
+   padding: 0;
+ }
 
   .mobile-only {
     @media (min-width: 1024px) {

@@ -34,5 +34,9 @@ export function ProjectHeaderRoot({
     }));
   }, [minStartDateObj, maxEndDateObj, setRanges, inProjectPage]);
 
-  return <Container className={roboto.className}>{children}</Container>;
+  return (
+    <Container className={roboto.className}>
+      <div>{children}</div>
+    </Container>
+  );
 }

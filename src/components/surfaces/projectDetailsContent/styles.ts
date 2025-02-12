@@ -14,6 +14,7 @@ export const Container = styled.div`
 export const MainContainer = styled.div`
   margin-top: 12.5rem;
   padding: 0 5%;
+  max-width: none;
   width: 100%;
   height: 100%;
   display: flex;
@@ -21,6 +22,11 @@ export const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media(min-width: 1600px){
+   
+    padding: 0;
+  }
 `;
 
 export const FormContainer = styled.div<FormContainerProps>`
