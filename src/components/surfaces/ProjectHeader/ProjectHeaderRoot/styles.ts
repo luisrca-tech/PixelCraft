@@ -6,8 +6,8 @@ export const Container = styled.div`
   height: 5rem;
   top: 6rem;
   position: fixed;
-  max-width: 90rem ;
-  padding: 0 5%;
+  max-width: 90rem;
+  padding: 0 4.5%;
   
 
 >div{
