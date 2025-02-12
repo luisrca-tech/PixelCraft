@@ -16,26 +16,21 @@ export const HeaderContent = styled.div`
   width: 100%;
 
   span {
-    width: 100%;
+   
     font-size: 0.875rem;
     font-weight: bold;
   }
 
-  span:nth-of-type(1) {
-    text-align: start;
-  }
 
-  span:nth-of-type(2) {
-    text-align: end;
-  }
-
-  span:nth-of-type(3) {
-    text-align: end;
+  div:nth-of-type(2),div:nth-of-type(3) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 export const ColumnTitleContainer = styled.div`
-  width: auto;
+  width: 100%;
 `;
 
 export const EditDateContainer = styled.div`

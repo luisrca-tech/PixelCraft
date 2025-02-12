@@ -32,6 +32,7 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Input = styled.input<InputProps>`
+  text-align: center;
   display: inline-block;
   padding-left: 0.75rem;
   height: 100%;
@@ -50,8 +51,8 @@ export const Input = styled.input<InputProps>`
     props.isLastRow
       ? `${theme.COLORS.SELECT_INPUT}`
       : props.showError
-      ? `${theme.COLORS.SELECT_INPUT}`
-      : "transparent"};
+        ? `${theme.COLORS.SELECT_INPUT}`
+        : "transparent"};
 
   &::placeholder {
     color: ${theme.COLORS.GRAY};
