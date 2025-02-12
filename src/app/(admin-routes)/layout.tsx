@@ -3,10 +3,14 @@ import { styled } from "@linaria/react";
 import { type ReactNode } from "react";
 import Header from "~/components/surfaces/header";
 
-const Container = styled.div`
+const Content = styled.div`
   width: 100%;
   overflow-y: hidden;
   padding-bottom: 2px;
+`;
+const Container = styled.div`
+  max-width: 90rem;
+  margin-inline: auto;
 `;
 
 type AuthHeaderProps = {
@@ -20,9 +24,9 @@ export default function PrivateLayout({ children }: AuthHeaderProps) {
   });
 
   return (
-    <>
+    <Container>
       <Header />
-      <Container>{children}</Container>
-    </>
+      <Content>{children}</Content>
+    </Container>
   );
 }
