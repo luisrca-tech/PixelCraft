@@ -1,15 +1,12 @@
 import { useSession } from "@clerk/nextjs";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { projectOptionsAtom } from "~/@atom/ProjectStates/projectOptions";
 import { EndPointClickUpApiEnum } from "~/clickUpApi/EndPointClickUpApiEnum";
 import { type CustomField, type OptionType } from "~/server/types/Clickup.type";
 import { api } from "~/trpc/react";
-import { showToast } from "~/utils/functions/showToast";
 
 export function useFilteredTasksByProject() {
-  const router = useRouter();
   const { session } = useSession();
   const userId = session?.user.id;
   const [, setProjectOptions] = useAtom(projectOptionsAtom);
@@ -93,15 +90,15 @@ export function useFilteredTasksByProject() {
     setProjectOptions,
   ]);
 
-  useEffect(() => {
-    if (getCustomField.error) {
-      showToast(
-        "error",
-        "Erro ao buscar custom fields!",
-        "Configura se PK e ListId estão cadastrados corretamente."
-      );
-    }
-  }, [router, getCustomField.error]);
+  // useEffect(() => {
+  //   if (getCustomField.error) {
+  //     showToast(
+  //       "error",
+  //       "Erro ao buscar custom fields!",
+  //       "Configura se PK e ListId estão cadastrados corretamente."
+  //     );
+  //   }
+  // }, [router, getCustomField.error]);
 
   return {
     filteredTasksByProject,

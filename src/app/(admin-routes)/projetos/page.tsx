@@ -19,7 +19,7 @@ export default function Projetos() {
           <div className="stat-info">
             <span>Total de Projetos</span>
             <h3 className={poppins.className}>
-              {filteredTasksByProject.length
+              {filteredTasksByProject?.length
                 ? filteredTasksByProject.length
                 : <p style={{fontSize: "1.25rem"}}>Loading...</p>}
             </h3>

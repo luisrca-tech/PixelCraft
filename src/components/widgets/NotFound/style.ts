@@ -4,9 +4,11 @@ import { theme } from "~/app/styles/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vg;
+  height: 100%;
   width: 100%;
   gap: 4rem;
+  margin-top: 10rem;
+  text-align: center;
 
   div {
     display: flex;
@@ -21,5 +23,9 @@ export const Container = styled.div`
     line-height: 1.5;
     font-weight: 600;
     color: ${theme.COLORS.PRIMARY};
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 0;
   }
 `;

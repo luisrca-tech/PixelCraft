@@ -16,6 +16,7 @@ export function NotFound({
 }: NotFoundProps) {
   return (
     <Container>
+      <div />
       <div>
         <p>{message}</p>
         {description && <p>{description}</p>}
