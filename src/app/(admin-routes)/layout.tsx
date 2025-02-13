@@ -10,7 +10,7 @@ const Content = styled.div`
 `;
 const Container = styled.div`
   max-width: 90rem;
-  margin-inline: auto;
+  margin-inline: auto !important;
 `;
 
 type AuthHeaderProps = {
