@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   description:
     "PixelCraft é uma solução avançada de gestão de RH desenvolvida em parceria com a T10, com o objetivo de otimizar o gerenciamento de horas e orçamento de projetos para os funcionários.",
   icons: [{ rel: "icon", url: "/favicon.png" }],
-   openGraph: {
+  metadataBase: new URL("https://pixelcraft10.vercel.app"),
+  openGraph: {
     images: [
       {
         url: ogImage.src,

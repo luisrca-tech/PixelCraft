@@ -98,7 +98,7 @@ export function useProcessRows() {
           tasksIdsPromises.push(
             mutationUpdateTask.mutateAsync({
               userId: userId ?? "",
-              row: row,
+
               Dates: { startDate, endDate },
               taskId: taskId,
             })
