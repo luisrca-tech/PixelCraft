@@ -44,7 +44,7 @@ export default function Configuration() {
       if (upsertClickUpKeys.isSuccess) {
         showToast("success", "Configuração salva com sucesso!");
       }
-      router.push("/projetos");
+      window.location.href = "/projetos";
     } catch (error) {
       showToast("error", "Erro ao salvar a configuração.");
     }
