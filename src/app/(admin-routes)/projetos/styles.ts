@@ -29,9 +29,7 @@ export const Container = styled.div`
     }
   }
 
-  @media (min-width: 1536px) {
-    padding: 0 6rem;
-  }
+
 `;
 
 export const StatsSection = styled.div`

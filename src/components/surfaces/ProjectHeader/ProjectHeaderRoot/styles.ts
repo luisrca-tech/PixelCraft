@@ -7,7 +7,7 @@ export const Container = styled.div`
   top: 6rem;
   position: fixed;
   max-width: 90rem;
-  padding: 0 4.5%;
+  padding: 0 4.5% !important;
   
 
 >div{
@@ -29,7 +29,7 @@ export const Container = styled.div`
 }
 
   @media(min-width: 1600px){
-    padding: 0;
+    padding: 0 !important;
   }
 
 

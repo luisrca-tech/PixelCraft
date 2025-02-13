@@ -34,7 +34,7 @@ export const Container = styled.header<ContainerType>`
 
   @media(min-width: 1600px){
    
-   padding: 0;
+   padding: 0 !important;
  }
 
   .mobile-only {

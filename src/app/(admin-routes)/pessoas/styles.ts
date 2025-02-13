@@ -14,7 +14,7 @@ export const Container = styled.div`
 
   @media(min-width: 1600px){
    
-    padding: 0;
+    padding: 0 !important;
   }
 `;
 
