@@ -28,4 +28,8 @@ export const ProjectContainer = styled.div`
   &:hover {
     background-color: ${darken(0.1, theme.COLORS.SECONDARY_EXTRA_LIGTH)};
   }
+
+  @media(min-width: 1024px){
+    height: 6rem;
+    }
 `;

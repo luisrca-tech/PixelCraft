@@ -9,7 +9,7 @@ export const Container = styled.div<ContainerProps>`
   align-items: center;
 
   @media (min-width: 1024px) {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 `;
 export const DatesContainer = styled.div`
@@ -25,7 +25,7 @@ export const DatesContainer = styled.div`
     font-size: 0.875rem;
 
     @media (min-width: 1024px) {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
     }
   }
 `;

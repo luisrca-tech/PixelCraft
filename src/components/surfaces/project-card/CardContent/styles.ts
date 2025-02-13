@@ -13,6 +13,10 @@ export const CardContentDescriptions = styled.div`
 
   font-size: 13px;
 
+  @media(min-width: 1024px){
+      font-size: 1rem;
+    }
+
   p {
     display: flex;
     gap: 4px;

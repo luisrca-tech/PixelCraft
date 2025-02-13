@@ -106,7 +106,6 @@ export const clickupRouter = createTRPCRouter({
     .input(
       z.object({
         userId: z.string(),
-        row: z.string().optional(),
         Dates: z.object({
           startDate: z.date().optional(),
           endDate: z.date().optional(),
@@ -116,9 +115,8 @@ export const clickupRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
-      const { row, Dates, taskId } = input;
+      const { Dates, taskId } = input;
 
-      const numberRow = row?.replace("row-", "");
       const updateTaskResp = await fetch(
         `https://api.clickup.com/api/v2/task/${taskId}`,
         {
@@ -128,7 +126,6 @@ export const clickupRouter = createTRPCRouter({
             Authorization: AuthorizationPkKey ? AuthorizationPkKey : "",
           },
           body: JSON.stringify({
-            name: `Pessoa-${numberRow}`,
             start_date: Dates.startDate?.getTime(),
             due_date: Dates.endDate?.getTime(),
           }),
@@ -363,7 +360,7 @@ export const clickupRouter = createTRPCRouter({
       } catch (error) {
         throw new Error(
           "Error creating or updating configuration key: " +
-            (error as Error).message
+          (error as Error).message
         );
       }
     }),

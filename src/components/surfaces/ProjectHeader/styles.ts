@@ -37,12 +37,5 @@ export const ContentContainer = styled.div`
   align-items: center;
   gap: 1rem;
 
-  input {
-    border: 0;
-    background: transparent;
-    outline: none;
-    font-size: 1rem;
-    font-weight: 600;
-    color: ${theme.COLORS.SECONDARY_DARK};
-  }
+
 `;

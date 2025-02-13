@@ -32,6 +32,10 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Input = styled.input<InputProps>`
+   @media(min-width: 1024px){
+    font-size: 1.2rem
+  }
+  
   text-align: center;
   display: inline-block;
   padding-left: 0.75rem;

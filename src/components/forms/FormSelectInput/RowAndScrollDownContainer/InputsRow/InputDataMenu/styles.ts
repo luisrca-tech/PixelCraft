@@ -22,4 +22,8 @@ export const Container = styled.button<InputDataMenuProps>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  @media(min-width: 1024px){
+    font-size: 1.2rem;
+  }
 `;

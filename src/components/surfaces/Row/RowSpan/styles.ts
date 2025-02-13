@@ -33,4 +33,8 @@ export const Span = styled.span< SpanProps>`
   font-weight: 500;
   max-width: 100%;
   text-align: ${(props) => props.centralized ? "center" : "start"};
+
+  @media(min-width: 1024px){
+    font-size: 1.2rem;
+  }
 `;

@@ -64,5 +64,10 @@ export const SwitchContainer = styled.div`
   span {
     font-size: 14px;
     font-weight: 600;
+
+    
+  @media(min-width: 1024px){
+    font-size: 1rem;
+  }
   }
 `;

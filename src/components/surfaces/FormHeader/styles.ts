@@ -19,6 +19,11 @@ export const HeaderContent = styled.div`
    
     font-size: 0.875rem;
     font-weight: bold;
+
+    
+  @media(min-width: 1024px){
+    font-size: 1rem;
+  }
   }
 
 

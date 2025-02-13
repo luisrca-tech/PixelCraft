@@ -17,8 +17,8 @@ export const Container = styled.div<ContainerProps>`
     props.checked
       ? "calc(100% - 28px)"
       : props.isInProjectHeader
-      ? "100%"
-      : "32%"};
+        ? "100%"
+        : "32%"};
   height: 2.5rem;
   align-items: center;
   position: relative;
@@ -49,6 +49,13 @@ export const Input = styled.input<InputProps>`
   outline: none;
   z-index: 1;
   font-size: 1rem;
+  font-weight: 600;
+
+  @media(min-width: 1024px){
+    font-size: 1.2rem
+  }
+
+
 
   &::placeholder {
     color: ${theme.COLORS.GRAY};

@@ -13,12 +13,17 @@ export const RoleAndPerson = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 1rem;
 
   span {
     font-size: 1rem;
     color: ${theme.COLORS.DARK};
     font-weight: 600;
     line-height: 28px;
+
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
   }
 `;
 
@@ -54,6 +59,11 @@ export const PersonByRole = styled.div`
     font-size: 1rem;
     color: ${theme.COLORS.SECONDARY_DARK};
     line-height: 24px;
+    font-weight: 500;
+
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
   }
 
   input {

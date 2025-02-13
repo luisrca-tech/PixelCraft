@@ -6,6 +6,7 @@ export const Container = styled.div`
   padding: 0 0.5rem;
   justify-content: space-between;
   gap: 5rem;
+  
 `;
 
 export const ProjectDuration = styled.div`
@@ -16,7 +17,14 @@ export const ProjectDuration = styled.div`
   span {
     font-size: 0.875rem;
     font-weight: bold;
+
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
+  
   }
+
+
 `;
 
 export const BudgetContent = styled.div`
@@ -25,7 +33,11 @@ export const BudgetContent = styled.div`
   align-items: center;
 
   span {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: bold;
+
+    @media(min-width: 1024px){
+    font-size: 1.2rem;
+  }
   }
 `;

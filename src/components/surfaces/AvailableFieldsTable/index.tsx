@@ -60,7 +60,7 @@ export function AvailableFields() {
       )}
       <TableFooterCount>
         <span>Valor Total</span>
-        <span>$ {totalValue} </span>
+        <span>R$ {totalValue} </span>
       </TableFooterCount>
     </Container>
   );

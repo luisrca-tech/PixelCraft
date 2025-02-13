@@ -28,6 +28,10 @@ export const Container = styled.div<ContainerType>`
     padding: 0px 20px;
     color: ${theme.COLORS.WHITE};
 
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
+
     &.loading {
       background-color: ${darken(0.03, theme.COLORS.SECONDARY_EXTRA_LIGTH)};
       color: ${theme.COLORS.GRAY};

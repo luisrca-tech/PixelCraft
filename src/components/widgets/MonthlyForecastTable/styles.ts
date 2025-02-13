@@ -57,6 +57,8 @@ export const CarouselHeader = styled.div`
 export const ForecastGrid = styled.div`
   width: 100%;
   position: relative;
+
+  
 `;
 
 export const ForecastItem = styled.div`
@@ -81,19 +83,12 @@ export const ForecastItem = styled.div`
     font-size: 0.875rem;
     font-weight: 600;
     color: ${theme.COLORS.DARK};
-  }
-
-  @media (min-width: 1024px) {
-    padding: 1rem;
-
-    span:first-child {
-      font-size: 0.875rem;
-    }
-
-    span:last-child {
-      font-size: 1rem;
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
     }
   }
+
+
 
   @media (min-width: 1024px) {
     background: ${theme.COLORS.WHITE};

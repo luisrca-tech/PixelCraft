@@ -19,6 +19,10 @@ export const TableTitle = styled.div`
     font-weight: 600;
     line-height: 28px;
     width: 33%;
+    
+    @media(min-width: 1024px){
+    font-size: 1.2rem;
+  }
   }
   > span:nth-of-type(2) {
     text-align: center;
@@ -74,6 +78,10 @@ export const TableFields = styled.div`
     font-size: 1rem;
     line-height: 28px;
     font-weight: 400;
+
+    @media(min-width: 1024px){
+    font-size: 1.2rem;
+  }
   }
 
   span {
@@ -82,6 +90,10 @@ export const TableFields = styled.div`
     color: ${theme.COLORS.DARK};
     font-size: 1rem;
     line-height: 28px;
+
+     @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
   }
 `;
 
@@ -105,5 +117,8 @@ export const TableFooterCount = styled.div`
     font-size: 1rem;
     line-height: 28px;
     font-weight: 600;
+    @media(min-width: 1024px){
+      font-size: 1.2rem;
+    }
   }
 `;
