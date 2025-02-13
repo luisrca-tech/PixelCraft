@@ -21,7 +21,7 @@ export const Container = styled.div`
 
   @media (min-width: 1024px) {
     max-width: 87.5rem;
-    padding: 0 4rem;
+    padding: 0 4rem 1rem;
     gap: 4rem;
 
     h1 {
