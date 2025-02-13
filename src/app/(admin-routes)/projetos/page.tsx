@@ -5,26 +5,14 @@ import { Container, StatsSection, StatCard, ProjectsSection } from "./styles";
 import { IoStatsChart, IoCheckmarkDone, IoTime } from "react-icons/io5";
 import { poppins } from "~/assets/fonts/fonts";
 import { useFilteredTasksByProject } from "~/hooks/useFilteredTasksByProject";
+import { useProjectsInfos } from "~/utils/functions/useProjectsInfos";
 
 export default function Projetos() {
   const { filteredTasksByProject } = useFilteredTasksByProject();
-  const currentDate = Date.now();
 
-  const completedProjects = filteredTasksByProject.filter((item) => {
-    return (
-      item.dates.maxEndDate !== null && item.dates.maxEndDate < currentDate
-    );
-  });
-
-  const completedCount = completedProjects.length;
-
-  const onGoingProjects = filteredTasksByProject.filter((item) => {
-    return (
-      item.dates.maxEndDate !== null && item.dates.maxEndDate >= currentDate
-    );
-  });
-
-  const onGoingCount = onGoingProjects.length;
+  const { completedCount, ongoingCount, totalCount } = useProjectsInfos(
+    filteredTasksByProject
+  );
 
   return (
     <Container>
@@ -36,8 +24,8 @@ export default function Projetos() {
           <div className="stat-info">
             <span>Total de Projetos</span>
             <h3 className={poppins.className}>
-              {filteredTasksByProject?.length ? (
-                filteredTasksByProject.length
+              {totalCount ? (
+                totalCount
               ) : (
                 <p style={{ fontSize: "1.25rem" }}>Loading...</p>
               )}
@@ -61,7 +49,7 @@ export default function Projetos() {
           </div>
           <div className="stat-info">
             <span>Em Andamento</span>
-            <h3 className={poppins.className}>{onGoingCount}</h3>
+            <h3 className={poppins.className}>{ongoingCount}</h3>
           </div>
         </StatCard>
       </StatsSection>
