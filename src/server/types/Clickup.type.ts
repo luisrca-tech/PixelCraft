@@ -30,14 +30,14 @@ export type CustomField = {
 
 export type TasksInfosType =
   | {
-      taskId: string;
-      chargeName: string;
-      fieldName: string;
-      hours: number | string[];
-      valueByHour: number | string[];
-      taskStartDate: Date;
-      taskDueDate: Date;
-    }[]
+    taskId: string;
+    chargeName: string;
+    fieldName: string;
+    hours: number | string[];
+    valueByHour: number | string[];
+    taskStartDate: Date;
+    taskDueDate: Date;
+  }[]
   | undefined;
 
 export type ProjectDates = {
@@ -126,7 +126,7 @@ interface Status {
   type: string;
 }
 
-interface Watcher {}
+interface Watcher { }
 
 export interface Task {
   archived: boolean;
@@ -167,3 +167,27 @@ export interface Task {
   url: string;
   watchers: Watcher[];
 }
+
+export interface TaskInfo {
+  taskId: string;
+  chargeName: string;
+  fieldName: string;
+  hours: number | string[];
+  valueByHour: number | string[];
+  months: string[];
+  taskStartDate: Date;
+  taskDueDate: Date;
+  chargeOptions?: chargeOptions;
+  chargeValue?: number | string | string[];
+  absencesValue: number | string[];
+};
+
+export type chargeOptions = {
+  id: string;
+  name: string;
+  color: string | null;
+  orderindex?: number;
+  label?: string;
+}[] | undefined
+
+export type chargeValue = number | string
