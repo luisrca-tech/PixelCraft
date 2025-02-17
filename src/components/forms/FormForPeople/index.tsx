@@ -16,6 +16,9 @@ import { FormFooter } from "../../surfaces/FormFooter";
 import { Container, Form, PersonByRole, RoleAndPerson } from "./styles";
 import { useSearchParams } from "next/navigation";
 import { allocatedPeopleAtom } from "~/@atom/ProjectStates/allocatedPeopleAtom";
+import { useState } from "react";
+import AbsenceModal from "~/components/widgets/AbsenceModal";
+import { type TaskInfo } from "~/server/types/Clickup.type";
 
 export function FormForPeople() {
   const searchParams = useSearchParams();
@@ -27,6 +30,7 @@ export function FormForPeople() {
   const updateTaskName = api.clickup.updateTaskName.useMutation();
   const [isLoading, setIsLoading] = useAtom(loadingAtom);
   const [, setPeopleState] = useAtom(allocatedPeopleAtom);
+
   const {
     register,
     handleSubmit,
@@ -34,6 +38,9 @@ export function FormForPeople() {
   } = useForm<formPersonsData>({
     resolver: zodResolver(formPersonsSchema),
   });
+
+  const [selectedTask, setSelectedTask] = useState<TaskInfo | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onSubmit = async ({ names }: formPersonsData) => {
     setIsLoading(true);
@@ -61,11 +68,31 @@ export function FormForPeople() {
     });
   };
 
+  const handleOpenModal = (role: TaskInfo) => {
+    const taskInfo: TaskInfo = {
+      taskId: role.taskId,
+      chargeName: role.chargeName,
+      fieldName: role.fieldName,
+      hours: role.hours || 0,
+      valueByHour: role.valueByHour || 0,
+      taskStartDate: role.taskStartDate || new Date(),
+      taskDueDate: role.taskDueDate || new Date(),
+      chargeOptions: role.chargeOptions,
+      chargeValue: role.chargeValue,
+      months: role.months,
+      absencesValue: role.absencesValue,
+    };
+
+    setSelectedTask(taskInfo);
+    setIsModalOpen(true);
+  };
+
   return (
     <Container>
       <RoleAndPerson>
         <span>Pessoa</span>
         <span>Cargo</span>
+        <span>Ausências</span>
       </RoleAndPerson>
       {roles ? (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -75,11 +102,16 @@ export function FormForPeople() {
                 <input
                   type="text"
                   defaultValue={role.fieldName}
-                  placeholder="Vincule uma pessoa"
+                  placeholder="Nome"
                   {...register(`names.${index}`)}
                   onChange={(e) => onInputChange(index, e.target.value)}
                 />
                 <span>{role.chargeName}</span>
+                <Button
+                  type="button"
+                  onClick={() => handleOpenModal(role)}
+                  text="Definir"
+                />
               </PersonByRole>
               {errors.names && errors.names[index] && (
                 <p>{errors.names[index]?.message}</p>
@@ -101,6 +133,12 @@ export function FormForPeople() {
             {!isLoading && <Button text="Salvar" type="submit" />}
           </FormFooter>
         </Form>
+      )}
+      {isModalOpen && selectedTask && (
+        <AbsenceModal
+          task={selectedTask}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </Container>
   );
