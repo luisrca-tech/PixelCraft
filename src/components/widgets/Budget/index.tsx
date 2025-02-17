@@ -19,7 +19,7 @@ export function Budget({ budgetInfo }: BudgetProps) {
         <>
           <ProjectDuration className={poppins.className}>
             <span>Duração do projeto:</span>
-            <span>{budgetInfo?.totalDays} Dias</span>
+            <span>{Math.ceil(budgetInfo?.totalDays || 0)} Dias</span>
           </ProjectDuration>
         </>
       ) : (
