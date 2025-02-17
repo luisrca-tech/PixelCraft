@@ -31,7 +31,7 @@ export const Container = styled.header<ContainerType>`
   gap: 1rem;
   background-color: ${theme.COLORS.WHITE};
   z-index: 3;
-  padding: 0 5%;
+  padding: 0 5% !important;
 
   @media(min-width: 1600px){
    
@@ -94,12 +94,12 @@ export const NavigationContainer = styled.nav`
     overflow: visible;
     align-items: center;
     gap: 2rem;
-    padding-left: 10px;
+    padding-left: 10px !important;
   }
 `;
 
 export const SidebarContainer = styled.div<SidebarContainerType>`
-  padding: 3.75rem 5.625rem 0 1.938rem;
+  padding: 3.75rem 5.625rem 0 1.938rem !important;
   display: flex;
   width: 66vw;
   flex-direction: column;
@@ -126,7 +126,7 @@ export const OptionsContainer = styled.div`
 
 export const CloseContainer = styled.div`
   width: 100%;
-  padding: 1.5rem 0;
+  padding: 1.5rem 0 !important;
   display: flex;
   align-items: center;
   border-bottom: 2px solid ${theme.COLORS.LIGHT};
@@ -151,7 +151,7 @@ export const CloseContainer = styled.div`
 
 export const ButtonContainer = styled.div<ButtonContainerType>`
   width: 100%;
-  padding: 1.5rem 0;
+  padding: 1.5rem 0 !important;
   display: flex;
   align-items: center;
   border-bottom: 2px solid ${theme.COLORS.LIGHT};
@@ -173,7 +173,7 @@ export const NavLink = styled.button<NavLinkType>`
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem !important;
   cursor: pointer;
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
@@ -206,7 +206,7 @@ export const AddProjectButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  padding: 0px 20px;
+  padding: 0px 20px !important;
   color: ${theme.COLORS.WHITE};
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -225,8 +225,7 @@ export const AddProjectButton = styled.button`
 `;
 
 export const BackButton = styled.button`
-  padding: 0px 20px;
-  
+  padding: 0px 20px !important;
   border-radius: 20px;
   height: 2.4rem;
   border-radius: 20px;
