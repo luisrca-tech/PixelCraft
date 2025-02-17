@@ -28,6 +28,7 @@ export const Container = styled.header<ContainerType>`
   height: 6rem;
   position: fixed;
   top: 0;
+  gap: 1rem;
   background-color: ${theme.COLORS.WHITE};
   z-index: 3;
   padding: 0 5%;
@@ -42,17 +43,19 @@ export const Container = styled.header<ContainerType>`
       display: none;
       overflow: hidden;
       width: 0;
+ 
     }
   }
 
   .desktop-only {
-    @media (max-width: 1023px) {
+    @media (max-width: 1024px) {
       display: none;
       overflow: hidden;
       width: 0;
     }
   }
 `;
+
 
 export const ButtonsContainer = styled.div`
   display: flex;
@@ -91,6 +94,7 @@ export const NavigationContainer = styled.nav`
     overflow: visible;
     align-items: center;
     gap: 2rem;
+    padding-left: 10px;
   }
 `;
 
@@ -193,16 +197,53 @@ export const NavLink = styled.button<NavLinkType>`
 `;
 
 export const AddProjectButton = styled.button`
-  width: 2.4rem;
+  width: 100%;
+  background-color: ${theme.COLORS.PRIMARY};
   height: 2.4rem;
   border: none;
-  background-color: transparent;
   display: flex;
+  gap: 1rem;
   align-items: center;
   justify-content: center;
+  border-radius: 20px;
+  padding: 0px 20px;
+  color: ${theme.COLORS.WHITE};
   cursor: pointer;
+  transition: transform 0.2s ease;
+
+  >span{
+    font-size: 1rem;
+    font-weight: 700;
+    @media(max-width:700px ){
+      display: none;
+    }
+  }
 
   &:hover {
-    color: ${theme.COLORS.PRIMARY};
+    transform: scale(1.1);
   }
 `;
+
+export const BackButton = styled.button`
+  padding: 0px 20px;
+  
+  border-radius: 20px;
+  height: 2.4rem;
+  border-radius: 20px;
+  background-color: ${theme.COLORS.PRIMARY};
+  border: none;
+  transition: transform 0.2s ease;
+
+  display: none;
+
+  @media(min-width: 1024px){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+`

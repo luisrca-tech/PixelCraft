@@ -19,21 +19,38 @@ export const Container = styled.div<ContainerType>`
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: ${theme.COLORS.PRIMARY};
     height: 2.5rem;
     font-size: 1rem;
     font-weight: bold;
     border: none;
     border-radius: 20px;
     padding: 0px 20px;
-    color: ${theme.COLORS.WHITE};
+    transition: background 0.4s ease-in-out, box-shadow 0.3s ease-in-out;
+    background: linear-gradient(
+      135deg,
+      ${theme.COLORS.PRIMARY},
+      ${theme.COLORS.PRIMARY}
+    );
 
-    @media(min-width: 1024px){
+    > span {
+      color: ${theme.COLORS.WHITE};
+    }
+
+    @media (min-width: 1024px) {
       font-size: 1.2rem;
     }
 
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        ${darken(0.1, theme.COLORS.PRIMARY)},
+        ${darken(0.05, theme.COLORS.PRIMARY)}
+      );
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
     &.loading {
-      background-color: ${darken(0.03, theme.COLORS.SECONDARY_EXTRA_LIGTH)};
+      background: ${darken(0.03, theme.COLORS.SECONDARY_EXTRA_LIGTH)};
       color: ${theme.COLORS.GRAY};
       cursor: not-allowed;
       opacity: 0.9;

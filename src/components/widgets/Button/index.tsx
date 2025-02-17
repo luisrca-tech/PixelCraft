@@ -18,7 +18,7 @@ export default function Button({
   const pLoading = typeof loading !== "boolean" ? false : loading;
 
   return (
-    <Container className={poppins.className} disabled={disabled}>
+    <Container disabled={disabled}>
       <button
         type="button"
         {...rest}
@@ -27,7 +27,11 @@ export default function Button({
           [rest.className as string]: true,
         })}
       >
-        {!!loading ? <LoadingIndicator /> : text}
+        {!!loading ? (
+          <LoadingIndicator />
+        ) : (
+          <span className={poppins.className}>{text} </span>
+        )}
       </button>
     </Container>
   );

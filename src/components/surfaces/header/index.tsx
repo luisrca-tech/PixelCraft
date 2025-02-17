@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { IoAdd, IoCloseSharp, IoMenu } from "react-icons/io5";
+import { IoAdd, IoCloseSharp, IoMenu, IoArrowBackSharp } from "react-icons/io5";
 import Modal from "../Modal";
 import {
   AddProjectButton,
@@ -15,6 +15,7 @@ import {
   OptionsContainer,
   SidebarContainer,
   TitleContainer,
+  BackButton,
 } from "./styles";
 
 import { UserButton } from "@clerk/nextjs";
@@ -45,10 +46,7 @@ export default function Header() {
     <>
       {showModal && <Modal onClickCallback={() => setShowModal(false)} />}
       <SidebarContainer isShow={showModal}>
-        <UserButton
-          userProfileMode="navigation"
-          userProfileUrl=""
-        />
+        <UserButton userProfileMode="navigation" userProfileUrl="" />
         <CloseContainer>
           <button onClick={() => setShowModal(false)}>
             <span className={poppins.className}>Fechar</span>
@@ -95,18 +93,21 @@ export default function Header() {
             <IoMenu size={24} />
           </MenuButton>
         </ButtonsContainer>
+
+        <BackButton onClick={() => router.back()}>
+          <IoArrowBackSharp size={24} stroke="white" />
+        </BackButton>
+
         <TitleContainer className={`${poppins.className} mobile-only`}>
           <h1>
             {isPersonsPage ? "Pessoas" : !projectId ? "Projetos" : "Projeto"}
           </h1>
         </TitleContainer>
-        <div className="desktop-only">
-          <UserButton
-            userProfileMode="navigation"
-            userProfileUrl=""
-          />
-        </div>
+
         <NavigationContainer>
+          <div className="desktop-only">
+            <UserButton userProfileMode="navigation" userProfileUrl="" />
+          </div>
           <NavLink
             active={isProjectsPage}
             onClick={() => router.push("/projetos")}
@@ -121,26 +122,19 @@ export default function Header() {
           >
             Configuração
           </NavLink>
-          <NavLink
-            disabled
-            className={poppins.className}
-          >
+          <NavLink disabled className={poppins.className}>
             Mobilizados
           </NavLink>
-          <NavLink
-            disabled
-            className={poppins.className}
-          >
+          <NavLink disabled className={poppins.className}>
             Férias
           </NavLink>
         </NavigationContainer>
 
         <ButtonsContainer>
-            <AddProjectButton
-              onClick={() => (window.location.href = "/projeto")}
-            >
-              <IoAdd size={24} />
-            </AddProjectButton>
+          <AddProjectButton onClick={() => (window.location.href = "/projeto")}>
+            <span className={poppins.className}>Novo projeto</span>
+            <IoAdd size={24} />
+          </AddProjectButton>
         </ButtonsContainer>
       </Container>
     </>
