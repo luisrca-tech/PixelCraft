@@ -104,6 +104,7 @@ export const IsAvailable = styled.div`
   height: 0.375rem;
   border-radius: 100px;
   background-color: #3cb31e;
+  margin-right: 1rem;
 `;
 
 export const TableFooterCount = styled.div`
