@@ -14,12 +14,22 @@ import { useAvailableFields } from "~/utils/functions/useAvailableFields";
 import { useTasksOfProject } from "~/hooks/useTasksOfProject";
 import { allocatedPeopleAtom } from "~/@atom/ProjectStates/allocatedPeopleAtom";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 
 export function AvailableFields() {
   const { getTasksInfos } = useTasksOfProject();
   const tasksCustomFields = getTasksInfos();
-  const [peopleState] = useAtom(allocatedPeopleAtom);
+  const [peopleState, setPeopleState] = useAtom(allocatedPeopleAtom);
   const { totalValue, filteredFields } = useAvailableFields(tasksCustomFields);
+
+  useEffect(() => {
+    if (tasksCustomFields) {
+      const initialValues = tasksCustomFields.map(
+        (field) => field.fieldName || ""
+      );
+      setPeopleState(initialValues);
+    }
+  }, [tasksCustomFields, setPeopleState]);
 
   return (
     <Container>
