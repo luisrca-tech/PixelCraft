@@ -23,13 +23,13 @@ export function AvailableFields() {
   const { totalValue, filteredFields } = useAvailableFields(tasksCustomFields);
 
   useEffect(() => {
-    if (tasksCustomFields) {
+    if (tasksCustomFields && !peopleState.length) {
       const initialValues = tasksCustomFields.map(
         (field) => field.fieldName || ""
       );
       setPeopleState(initialValues);
     }
-  }, [tasksCustomFields, setPeopleState]);
+  }, [tasksCustomFields, setPeopleState, peopleState]);
 
   return (
     <Container>
