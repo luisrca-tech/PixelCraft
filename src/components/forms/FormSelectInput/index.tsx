@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { useEffect, type FormEvent } from "react";
+import { type FormEvent } from "react";
 import { loadingAtom } from "~/@atom/LoadingState/loadingAtom";
 import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 import {
