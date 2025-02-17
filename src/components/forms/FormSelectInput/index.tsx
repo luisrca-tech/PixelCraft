@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { type FormEvent } from "react";
+import { useEffect, type FormEvent } from "react";
 import { loadingAtom } from "~/@atom/LoadingState/loadingAtom";
 import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 import {
@@ -42,8 +42,11 @@ export default function FormSelectInput({ onReset }: FormSelectInputProps) {
     rowsAndSelectedValues.selectedValues
   ).every((value) => value !== "");
 
-  const canSubmit =
-    !rangesCondition && !selectedValuesNotEmpty1 && !selectedValuesNotEmpty2;
+  const cantSubmit =
+    !rangesCondition ||
+    !selectedValuesNotEmpty1 ||
+    !selectedValuesNotEmpty2 ||
+    projectSelectedValue.selectedValue["projectRow-option"] === "";
 
   function validateRanges(ranges: {
     [key: string]: SelectableRangePropsType;
@@ -88,7 +91,7 @@ export default function FormSelectInput({ onReset }: FormSelectInputProps) {
         <Budget budgetInfo={budgetInfo} />
         <Button
           text="Salvar"
-          disabled={canSubmit}
+          disabled={cantSubmit}
           loading={loading}
           type="submit"
         />
