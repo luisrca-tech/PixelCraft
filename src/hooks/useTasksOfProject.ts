@@ -176,6 +176,29 @@ export function useTasksOfProject(projectId?: string) {
     setLoading,
   ]);
 
+  function getMonthsForTask(task: Task) {
+    const taskStartDate = task.start_date ? new Date(parseInt(task.start_date)) : new Date();
+    const taskDueDate = task.due_date ? new Date(parseInt(task.due_date)) : new Date();
+    const startMonth = taskStartDate.getMonth();
+    const endMonth = taskDueDate.getMonth();
+    const startYear = taskStartDate.getFullYear();
+    const endYear = taskDueDate.getFullYear();
+    const months = [];
+
+    for (let year = startYear; year <= endYear; year++) {
+      const start = year === startYear ? startMonth : 0;
+      const end = year === endYear ? endMonth : 11;
+
+      for (let month = start; month <= end; month++) {
+        const formattedMonth = String(month + 1).padStart(2, "0");
+        months.push(`${formattedMonth}-${year}`);
+      }
+    }
+
+    return [...new Set(months)];
+  }
+
+
   function getTasksInfos() {
     return tasksOfProject?.map((task) => {
       const taskId = task.id;
@@ -188,6 +211,11 @@ export function useTasksOfProject(projectId?: string) {
       const valueField = task.custom_fields.find(
         (field) => field.name === "PixelCraft_Valor"
       );
+
+      const absencesField = task.custom_fields.find(
+        (field) => field.name === "PixelCraft_Ausencias"
+      );
+
 
       const taskStartDate = task.start_date
         ? new Date(parseInt(task.start_date))
@@ -213,14 +241,18 @@ export function useTasksOfProject(projectId?: string) {
         fieldName,
         hours: hoursField?.value || 0,
         valueByHour: valueField?.value || 0,
-
+        months: getMonthsForTask(task),
         taskStartDate,
         taskDueDate,
         chargeOptions,
         chargeValue,
+        absencesValue: absencesField?.value || 0
       };
     });
   }
+
+
+
 
   return {
     isFetchAllCustomFields,
@@ -228,5 +260,7 @@ export function useTasksOfProject(projectId?: string) {
     missingFields,
     fieldsIdsAtom,
     getTasksInfos,
+
+
   };
 }
