@@ -110,7 +110,7 @@ export function FormForPeople() {
                 <Button
                   type="button"
                   onClick={() => handleOpenModal(role)}
-                  text="Definir"
+                  text="Ausências"
                 />
               </PersonByRole>
               {errors.names && errors.names[index] && (
