@@ -4,8 +4,12 @@ import { saveAs } from "file-saver";
 import { TextButton } from "~/components/widgets/TextButton";
 import { ButtonsContainer } from "./styles";
 import { BsFiletypePdf } from "react-icons/bs";
+import { useAtom } from "jotai";
+import { checkedAtom } from "~/@atom/ProjectStates/checkedAtom";
 
 export const ExportXlsxButton = () => {
+  const [checked] = useAtom(checkedAtom);
+
   const mockData = [
     {
       Projeto: "Projeto A",
@@ -43,14 +47,17 @@ export const ExportXlsxButton = () => {
   };
 
   return (
-    <ButtonsContainer>
-      <TextButton
-        text="Xslx"
-        action={exportToExcel}
-        icon={<PiMicrosoftExcelLogoFill size={24} />}
-      />
-
-      <TextButton text="Pdf" icon={<BsFiletypePdf size={24} />} />
-    </ButtonsContainer>
+    <>
+      {!checked && (
+        <ButtonsContainer>
+          <TextButton
+            text="Xslx"
+            action={exportToExcel}
+            icon={<PiMicrosoftExcelLogoFill size={24} />}
+          />
+          <TextButton text="Pdf" icon={<BsFiletypePdf size={24} />} />
+        </ButtonsContainer>
+      )}
+    </>
   );
 };
