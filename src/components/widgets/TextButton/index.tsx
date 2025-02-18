@@ -9,7 +9,7 @@ type TextButtonProps = {
 
 export const TextButton = ({ text, action, icon }: TextButtonProps) => {
   return (
-    <ButtonContainer onClick={action}>
+    <ButtonContainer onClick={action} type="button">
       {text && <span className={poppins.className}>{text}</span>}
       {icon}
     </ButtonContainer>
