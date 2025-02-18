@@ -65,6 +65,7 @@
     "svix": "^1.25.0",
     "uuid": "^10.0.0",
     "xlsx": "^0.18.5",
+    "xlsx-style": "^0.8.13",
     "zod": "^3.23.8"
   },
   "devDependencies": {
