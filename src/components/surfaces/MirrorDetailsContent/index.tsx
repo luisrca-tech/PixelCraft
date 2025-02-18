@@ -43,7 +43,7 @@ export function MirrorDetailsContent() {
           />
         </InputsContent>
 
-        <ProjectHeader.ExportXlsxButton />
+        <ProjectHeader.ExportButtons />
       </ProjectHeader.Root>
       <MainContainer>
         {isDatePickerOpen && <CustomDateRangePicker />}
