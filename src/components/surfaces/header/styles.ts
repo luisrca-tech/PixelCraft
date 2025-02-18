@@ -224,25 +224,14 @@ export const AddProjectButton = styled.button`
   }
 `;
 
-export const BackButton = styled.button`
-  padding: 0px 20px !important;
-  border-radius: 20px;
-  height: 2.4rem;
-  border-radius: 20px;
-  background-color: ${theme.COLORS.PRIMARY};
-  border: none;
-  transition: transform 0.2s ease;
+export const BackButtonContainer = styled.div`
 
+ display: flex;
+ align-items: center;
+ justify-content: center;
+
+ @media(max-width: 1024px){
   display: none;
-
-  @media(min-width: 1024px){
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &:hover {
-    transform: scale(1.1);
-  }
+ }
 
 `

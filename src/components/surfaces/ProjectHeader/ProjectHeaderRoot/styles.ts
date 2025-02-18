@@ -20,7 +20,7 @@ export const Container = styled.div`
  
   justify-content: center;
   align-items: center;
-  
+  padding-right: 1rem;
   z-index: 3;
   border-bottom-left-radius: 10px;
 

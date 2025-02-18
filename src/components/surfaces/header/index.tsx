@@ -4,7 +4,6 @@ import { useState } from "react";
 import { IoAdd, IoCloseSharp, IoMenu, IoArrowBackSharp } from "react-icons/io5";
 import Modal from "../Modal";
 import {
-  AddProjectButton,
   ButtonContainer,
   ButtonsContainer,
   CloseContainer,
@@ -15,11 +14,12 @@ import {
   OptionsContainer,
   SidebarContainer,
   TitleContainer,
-  BackButton,
+  BackButtonContainer,
 } from "./styles";
 
 import { UserButton } from "@clerk/nextjs";
 import { poppins } from "~/assets/fonts/fonts";
+import { TextButton } from "~/components/widgets/TextButton";
 
 export default function Header() {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -94,9 +94,12 @@ export default function Header() {
           </MenuButton>
         </ButtonsContainer>
 
-        <BackButton onClick={() => router.back()}>
-          <IoArrowBackSharp size={24} stroke="white" />
-        </BackButton>
+        <BackButtonContainer>
+          <TextButton
+            action={() => router.back()}
+            icon={<IoArrowBackSharp size={24} stroke="white" />}
+          />
+        </BackButtonContainer>
 
         <TitleContainer className={`${poppins.className} mobile-only`}>
           <h1>
@@ -131,10 +134,11 @@ export default function Header() {
         </NavigationContainer>
 
         <ButtonsContainer>
-          <AddProjectButton onClick={() => (window.location.href = "/projeto")}>
-            <span className={poppins.className}>Novo projeto</span>
-            <IoAdd size={24} />
-          </AddProjectButton>
+          <TextButton
+            text="Novo projeto"
+            action={() => (window.location.href = "/projeto")}
+            icon={<IoAdd size={24} />}
+          />
         </ButtonsContainer>
       </Container>
     </>
