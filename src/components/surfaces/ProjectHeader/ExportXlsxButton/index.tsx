@@ -19,7 +19,7 @@ export const ExportButtons = () => {
             action={exportExcel}
             icon={<PiMicrosoftExcelLogoFill size={24} />}
           />
-          <TextButton text="Pdf" icon={<BsFiletypePdf size={24} />} />
+          <TextButton text="Pdf" icon={<BsFiletypePdf size={24} />} disabled />
         </ButtonsContainer>
       )}
     </>

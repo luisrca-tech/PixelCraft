@@ -14,17 +14,22 @@ export const ButtonContainer = styled.button`
   padding: 0px 20px !important;
   color: ${theme.COLORS.WHITE};
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease; 
 
-  >span{
+  >span {
     font-size: 1rem;
     font-weight: 700;
-    @media(max-width:700px ){
+    @media(max-width:700px) {
       display: none;
     }
   }
 
   &:hover {
     transform: scale(1.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;  /* Torna o botão opaco quando estiver desabilitado */
+    cursor: not-allowed;  /* Muda o cursor para indicar que o botão está desabilitado */
   }
 `;
