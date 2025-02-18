@@ -28,11 +28,12 @@ export function MirrorDetailsContent() {
   const budgetInfo = { totalDays, totalHours, totalValue };
   const profileHeaderInfo = { maxEndDateObj, minStartDateObj };
   const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
+
   return (
     <Container>
       <ProjectHeader.Root>
         <ProjectHeader.BoxImage
-          projectName={projectSelectedValue?.selectedValue[`projectRow-text`]}
+          projectName={projectSelectedValue?.selectedValue["projectRow-text"]}
         />
         <InputsContent>
           <ProjectHeader.EditProject checked={checked} />
@@ -41,9 +42,12 @@ export function MirrorDetailsContent() {
             checked={checked}
           />
         </InputsContent>
+
+        <ProjectHeader.ExportXlsxButton />
       </ProjectHeader.Root>
       <MainContainer>
         {isDatePickerOpen && <CustomDateRangePicker />}
+
         <TableContainer isDatePickerOpen={isDatePickerOpen}>
           <MirrorTableContainer
             tasksCustomFields={tasksCustomFields}
