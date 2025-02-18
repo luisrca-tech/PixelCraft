@@ -90,16 +90,6 @@ export function useFilteredTasksByProject() {
     setProjectOptions,
   ]);
 
-  // useEffect(() => {
-  //   if (getCustomField.error) {
-  //     showToast(
-  //       "error",
-  //       "Erro ao buscar custom fields!",
-  //       "Configura se PK e ListId estão cadastrados corretamente."
-  //     );
-  //   }
-  // }, [router, getCustomField.error]);
-
   return {
     filteredTasksByProject,
     isLoading: getCustomField.isLoading || getTasks.isLoading,

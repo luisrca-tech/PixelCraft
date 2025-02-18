@@ -19,6 +19,7 @@ import { absenceSchema } from "~/schemas/absences-per-month-schema";
 import { type AbsencesData } from "~/types/absenses-input-type";
 import { allowOnlyNumbers } from "~/utils/functions/allowOnlyNumbers";
 import { showToast } from "~/utils/functions/showToast";
+import { api } from "~/trpc/react";
 
 interface AbsenceModalProps {
   task: TaskInfo;
@@ -38,26 +39,43 @@ const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
     },
   });
 
+  const upsertAbsences = api.absences.upsertAbsences.useMutation();
+
   const onSubmit = async (data: AbsencesData) => {
-    const formattedData = data.absencesForTask.map((absence) => ({
-      taskId: task.taskId,
-      month: absence.month,
-      absences: absence.absences === "" ? "0" : absence.absences,
-    }));
+    try {
+      const formattedData = data.absencesForTask.map((absence) => ({
+        taskId: task.taskId,
+        month: absence.month,
+        absences: Number(absence.absences || 0),
+      }));
 
-    console.log(JSON.stringify(formattedData, null, 2));
+      await upsertAbsences.mutateAsync({
+        absencesForTask: formattedData,
+      });
 
-    showToast("success", `Ausências de ${peopleName} registradas`);
-    return onClose();
+      showToast("success", `Ausências de ${peopleName} registradas`);
+      onClose();
+    } catch (error) {
+      showToast("error", "Erro ao registrar ausências");
+      console.error(error);
+    }
   };
 
   return (
-    <Dialog.Root open={true} onOpenChange={onClose}>
+    <Dialog.Root
+      open={true}
+      onOpenChange={onClose}
+    >
       <Overlay />
       <Content>
         <Title> Ausências de {peopleName}</Title>
         <CloseButton onClick={onClose}>
-          <Image src={Close} alt="close-modal-icon" width={20} height={20} />
+          <Image
+            src={Close}
+            alt="close-modal-icon"
+            width={20}
+            height={20}
+          />
         </CloseButton>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -74,7 +92,10 @@ const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
               </div>
             ))}
           </MonthsContainer>
-          <Button type="submit" text="Salvar" />
+          <Button
+            type="submit"
+            text="Salvar"
+          />
         </form>
       </Content>
     </Dialog.Root>

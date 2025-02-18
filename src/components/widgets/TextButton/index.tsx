@@ -1,22 +1,36 @@
 import { ButtonContainer } from "./styles";
 import { poppins } from "~/app/fonts";
 
-type TextButtonProps = {
-  text?: string;
+interface TextButtonProps {
+  text: string;
   action?: () => void;
   icon?: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  disabled?: boolean;
+  loading?: boolean;
+}
 
 export const TextButton = ({
   text,
   action,
   icon,
-  ...rest
+  disabled = false,
+  loading = false,
 }: TextButtonProps) => {
   return (
-    <ButtonContainer onClick={action} type="button" {...rest}>
-      {text && <span className={poppins.className}>{text}</span>}
-      {icon}
+    <ButtonContainer
+      onClick={action}
+      type="button"
+      disabled={disabled || loading}
+      style={{ opacity: loading ? 0.7 : 1 }}
+    >
+      {loading ? (
+        "Salvando..."
+      ) : (
+        <>
+          {text && <span className={poppins.className}>{text}</span>}
+          {icon}
+        </>
+      )}
     </ButtonContainer>
   );
 };

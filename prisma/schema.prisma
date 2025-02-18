@@ -8,22 +8,56 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  name           String?
-  email          String?   @unique
+  id                String              @id @default(cuid())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  name              String?
+  email             String?             @unique
   configurationKeys ConfigurationKeys[]
 
   @@map("users")
 }
 
 model ConfigurationKeys {
-  id                String  @id @default(cuid())
+  id                 String  @id @default(cuid())
   AuthorizationPkKey String? @unique
-  listId            String? 
-  userId            String? @unique
-  user              User?   @relation(fields: [userId], references: [id])
+  listId             String?
+  userId             String? @unique
+  user               User?   @relation(fields: [userId], references: [id])
 
   @@map("configuration_keys")
+}
+
+model Tasks {
+  id             String     @id
+  name           String
+  role           String
+  hours          Float
+  valueByHour    Float
+  startDate      DateTime
+  endDate        DateTime
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  estimatedValue Float
+  Absences       Absences[]
+
+  @@map("tasks")
+}
+
+model Absences {
+  id          String   @id @default(cuid())
+  taskName    String
+  month       Int
+  year        Int
+  absences    Int
+  taskRole    String
+  workedHours Float
+  totalValue  Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  taskId      String
+  task        Tasks    @relation(fields: [taskId], references: [id])
+
+  @@unique([taskId, month, year])
+  @@map("absences")
 }
