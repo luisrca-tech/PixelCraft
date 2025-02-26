@@ -1,6 +1,6 @@
-import { useTasksOfProject } from "~/hooks/useTasksOfProject";
 import { useGetInputValueAtIndex } from "./getInputValueAtIndex";
-import { type TaskInfo } from "~/server/types/Clickup.type";
+import { api } from "~/trpc/react";
+import { type Tasks as Task } from "@prisma/client";
 
 export function useProcessRoles() {
   const projectHeaderInputValue = useGetInputValueAtIndex(
@@ -9,42 +9,37 @@ export function useProcessRoles() {
     true
   );
 
-  const { getTasksInfos } = useTasksOfProject();
-  const roles = getTasksInfos();
+  const { data: tasks } = api.task.getTasksByProjectName.useQuery({
+    projectName: projectHeaderInputValue || "",
+  });
 
-  const absences: { [key: string]: number } = {
-    "12-2024": 2,
-    "01-2025": 4,
-    "02-2025": 3,
-    "03-2025": 1,
-  };
+  const { data: absences } = api.absences.getAbsencesByProjectName.useQuery({
+    projectName: projectHeaderInputValue || "",
+  });
 
-  const processRoles = (
-    roles: TaskInfo[],
-    absences: { [key: string]: number }
-  ) => {
-    return roles
-      .map((role) => {
-        const hours = Array.isArray(role.hours) ? 0 : role.hours;
-        const valueByHour = Array.isArray(role.valueByHour)
-          ? 0
-          : role.valueByHour;
+  const processRoles = () => {
+    if (!tasks) return [];
 
-        return role.months.map((month) => {
-          const absence = absences[month] || 0;
-          const workedHours = hours - absence;
-          const estimatedValue = valueByHour * hours;
-          const realValue = valueByHour * workedHours;
+    return tasks
+      .map((task: Task) => {
+        const taskAbsences =
+          absences?.filter((absence) => absence.taskId === task.id) || [];
+
+        return taskAbsences.map((absence) => {
+          const workedHours = task.hours - absence.absences;
+          const estimatedValue = task.valueByHour * task.hours;
+          const realValue = task.valueByHour * workedHours;
 
           return {
-            Projeto: projectHeaderInputValue,
-            Pessoa: role.fieldName,
-            Cargo: role.chargeName,
-            "Mês Referência": month,
-            Ausências: absence,
-            "Horas Planejadas": hours,
+            Projeto: task.projectName,
+            Pessoa: task.name,
+            Cargo: task.role,
+            "Mês Referência": absence.month,
+            Ano: absence.year,
+            Ausências: absence.absences,
+            "Horas Planejadas": task.hours,
             "Horas Trabalhadas": workedHours,
-            "Valor/Hora": valueByHour,
+            "Valor/Hora": task.valueByHour,
             "Valor Previsto": estimatedValue,
             "Valor Real": realValue,
           };
@@ -53,7 +48,7 @@ export function useProcessRoles() {
       .flat();
   };
 
-  const processedRolesData = roles ? processRoles(roles, absences) : [];
+  const processedRolesData = processRoles();
 
   return processedRolesData;
 }

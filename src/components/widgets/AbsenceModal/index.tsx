@@ -27,6 +27,7 @@ interface AbsenceModalProps {
 }
 
 const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
+  console.log(task);
   const peopleName = task.fieldName || "(sem nome)";
   const { register, handleSubmit } = useForm<AbsencesData>({
     resolver: zodResolver(absenceSchema),

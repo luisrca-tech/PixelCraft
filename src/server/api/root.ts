@@ -1,8 +1,8 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { clickupRouter } from "./routers/clickup";
 import { userRouter } from "./routers/user";
-import { TaskRouter } from "./routers/Tasks/Mutations/TasksMutation";
-import { AbsencesRouter } from "./routers/Absences/Mutations/AbsencesMutation";
+import { AbsencesRouter } from "./routers/Absences";
+import { TasksRouter } from "./routers/Tasks/Tasks";
 
 /**
  * This is the primary router for your server.
@@ -12,7 +12,7 @@ import { AbsencesRouter } from "./routers/Absences/Mutations/AbsencesMutation";
 export const appRouter = createTRPCRouter({
   clickup: clickupRouter,
   user: userRouter,
-  task: TaskRouter,
+  task: TasksRouter,
   absences: AbsencesRouter,
 });
 

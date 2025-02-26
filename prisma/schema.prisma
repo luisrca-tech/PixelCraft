@@ -30,6 +30,7 @@ model ConfigurationKeys {
 
 model Tasks {
   id             String     @id
+  projectName    String
   name           String
   role           String
   hours          Float

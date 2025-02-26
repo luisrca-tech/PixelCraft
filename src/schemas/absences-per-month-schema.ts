@@ -7,10 +7,7 @@ export const absenceSchema = z.object({
       month: z.string().regex(/^\d{2}-\d{4}$/),
       absences: z
         .string()
-        .refine(
-          (value) => value === "" || /^\d+$/.test(value),
-        ),
+        .refine((value) => value === "" || /^\d+$/.test(value)),
     })
   ),
 });
-

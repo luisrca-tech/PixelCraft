@@ -9,6 +9,7 @@ import { api } from "~/trpc/react";
 import { showToast } from "~/utils/functions/showToast";
 import { useState } from "react";
 import { useTasksOfProject } from "~/hooks/useTasksOfProject";
+import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 
 export const ExportButtons = () => {
   const [checked] = useAtom(checkedAtom);
@@ -16,11 +17,16 @@ export const ExportButtons = () => {
   const [isLoading, setIsLoading] = useState(false);
   const createTask = api.task.createTask.useMutation();
   const { getTasksInfos } = useTasksOfProject();
+  const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
+
+  const projectName = projectSelectedValue.selectedValue["projectRow-text"] || "Sem projeto";
 
   const handleExport = async () => {
     try {
       setIsLoading(true);
       const roles = getTasksInfos();
+
+      console.log(projectSelectedValue);
 
       if (!roles) {
         showToast("error", "Erro", "Nenhuma tarefa encontrada");
@@ -36,6 +42,7 @@ export const ExportButtons = () => {
 
           await createTask.mutateAsync({
             taskId: role.taskId,
+            projectName: projectName,
             name: role.fieldName,
             role: role.chargeName,
             hours,

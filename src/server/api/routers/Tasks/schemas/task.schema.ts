@@ -3,6 +3,7 @@ import { absenceSchema } from "../../Absences/schemas/absence.schema";
 
 export const taskSchema = z.object({
   taskId: z.string(),
+  projectName: z.string(),
   name: z.string().default("Sem nome"),
   role: z.string().default("Sem cargo"),
   hours: z.coerce.number().min(0, "Horas devem ser maior que 0").default(0),

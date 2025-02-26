@@ -1,7 +1,7 @@
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { publicProcedure } from "~/server/api/trpc";
 import { absencesInputSchema } from "../schemas/absence.schema";
 
-export const AbsencesRouter = createTRPCRouter({
+export const AbsencesMutations = ({
   upsertAbsences: publicProcedure
     .input(absencesInputSchema)
     .mutation(async ({ ctx, input }) => {
@@ -69,12 +69,4 @@ export const AbsencesRouter = createTRPCRouter({
 
       return results;
     }),
-
-  getAbsences: publicProcedure.query(async ({ ctx }) => {
-    return ctx.db.absences.findMany({
-      include: {
-        task: true,
-      },
-    });
-  }),
 });
