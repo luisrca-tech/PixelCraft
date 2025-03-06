@@ -99,4 +99,15 @@ export const MonthsContainer = styled.div`
     }
 `;
 
+export const InputContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  >span{
+    margin-left: 8px;
+   
+  }
+`
+
 

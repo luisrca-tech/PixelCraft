@@ -17,6 +17,7 @@ export const ProjectContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 0 5px;
   height: 5rem;
   gap: 1rem;
   background-color: ${theme.COLORS.SECONDARY_EXTRA_LIGTH};

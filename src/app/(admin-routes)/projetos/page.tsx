@@ -23,13 +23,7 @@ export default function Projetos() {
           </div>
           <div className="stat-info">
             <span>Total de Projetos</span>
-            <h3 className={poppins.className}>
-              {totalCount ? (
-                totalCount
-              ) : (
-                <p style={{ fontSize: "1.25rem" }}>Loading...</p>
-              )}
-            </h3>
+            <h3 className={poppins.className}>{totalCount ? totalCount : 0}</h3>
           </div>
         </StatCard>
 

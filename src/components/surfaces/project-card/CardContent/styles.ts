@@ -3,7 +3,7 @@ import { styled } from "@linaria/react";
 export const Container = styled.div`
   display: flex;
   gap: 0.8rem;
-  margin: 1rem !important;
+  margin: 1rem 1rem 1.2rem !important;
 `;
 
 export const CardContentDescriptions = styled.div`
@@ -20,5 +20,8 @@ export const CardContentDescriptions = styled.div`
   p {
     display: flex;
     gap: 4px;
+    @media(max-width: 400px){
+      font-size: 0.6rem;
+    }
   }
 `;
