@@ -6,9 +6,7 @@ import { roboto } from "~/assets/fonts/fonts";
 import Input from "~/components/inputs/Input";
 import Button from "~/components/widgets/Button";
 import ErrorMessage from "~/components/widgets/ErrorMessage";
-
 import { useSession } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { configurationSchema } from "~/schemas/configuration-schema";
 import { api } from "~/trpc/react";
 import { type configurationType } from "~/types/configuration.type";
@@ -19,7 +17,6 @@ import { Skeleton } from "~/components/widgets/Skeleton";
 export default function Configuration() {
   const { session } = useSession();
   const userId = session?.user.id ?? "";
-  const router = useRouter();
 
   const {
     register,
