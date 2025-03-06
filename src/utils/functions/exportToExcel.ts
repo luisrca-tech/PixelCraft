@@ -4,7 +4,7 @@ import { useGetInputValueAtIndex } from "./getInputValueAtIndex";
 import { useProcessRoles } from "./useProcessRoles";
 
 export function useExportToExcel() {
-    const processedRolesData = useProcessRoles();
+    const processedRolesData = useProcessRoles()
     const projectHeaderInputValue = useGetInputValueAtIndex(
         undefined,
         "projectRow",
@@ -18,7 +18,7 @@ export function useExportToExcel() {
         const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
         const fileData = new Blob([excelBuffer], {
             type: "application/octet-stream",
-      });
+        });
 
         const fileName = `Relatorio_${projectHeaderInputValue || "Projeto"}.xlsx`;
         saveAs(fileData, fileName);
