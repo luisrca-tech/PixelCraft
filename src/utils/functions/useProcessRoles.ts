@@ -10,11 +10,21 @@ export function useProcessRoles() {
     true
   );
 
-  const { data: tasks } = api.task.getTasksByProjectName.useQuery({
+  const {
+    data: tasks,
+    error: tasksError,
+    isLoading: tasksIsLoading
+
+  } = api.task.getTasksByProjectName.useQuery({
     projectName: projectHeaderInputValue || "",
   });
 
-  const { data: absences } = api.absences.getAbsencesByProjectName.useQuery({
+  const {
+    data: absences,
+    error: absencesError,
+    isLoading: absencesIsLoading
+
+  } = api.absences.getAbsencesByProjectName.useQuery({
     projectName: projectHeaderInputValue || "",
   });
 
@@ -28,7 +38,6 @@ export function useProcessRoles() {
         return months.map((monthYear) => {
           const [month, year] = monthYear.split("-");
           const yearNumber = year ? parseInt(year) : 0;
-
 
           const absenceForMonth = absences.find(
             (absence) =>
@@ -62,5 +71,11 @@ export function useProcessRoles() {
 
   const processedRolesData = processRoles();
 
-  return processedRolesData;
+  return {
+    processedRolesData,
+    tasksError,
+    absencesError,
+    isLoading: absencesIsLoading || tasksIsLoading
+
+  };
 }
