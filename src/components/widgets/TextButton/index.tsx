@@ -2,7 +2,7 @@ import { ButtonContainer } from "./styles";
 import { poppins } from "~/app/fonts";
 
 interface TextButtonProps {
-  text: string;
+  text?: string;
   action?: () => void;
   icon?: React.ReactNode;
   disabled?: boolean;
