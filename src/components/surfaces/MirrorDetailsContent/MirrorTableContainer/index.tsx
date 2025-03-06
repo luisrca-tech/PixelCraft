@@ -14,10 +14,6 @@ import { Skeleton } from "~/components/widgets/Skeleton";
 import { checkedAtom } from "~/@atom/ProjectStates/checkedAtom";
 import { useAtom } from "jotai";
 import { MonthlyForecastTable } from "~/components/widgets/MonthlyForecastTable";
-import { useTasksOfProject } from "~/hooks/useTasksOfProject";
-import { showToast } from "~/utils/functions/showToast";
-import { api } from "~/trpc/react";
-import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 
 type BudgetInfo = {
   totalDays: number;
@@ -36,46 +32,9 @@ export function MirrorTableContainer({
   const searchParams = useSearchParams();
   const projectId = searchParams.get("projectId");
   const router = useRouter();
-  const { getTasksInfos } = useTasksOfProject();
-  const createTask = api.task.createTask.useMutation();
-  const roles = getTasksInfos();
-  const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
 
-  const projectName = projectSelectedValue.selectedValue["projectRow-text"] || "Sem projeto";
-  
   async function HandleRedirectToPages(page: string) {
-    try {
-      if (!roles) {
-        showToast("error", "Erro", "Nenhuma tarefa encontrada");
-        return;
-      }
-
-      await Promise.all(
-        roles.map(async (role) => {
-          const hours = Array.isArray(role.hours) ? 0 : role.hours;
-          const valueByHour = Array.isArray(role.valueByHour)
-            ? 0
-            : role.valueByHour;
-
-          await createTask.mutateAsync({
-            taskId: role.taskId,
-            projectName: projectName,
-            name: role.fieldName,
-            role: role.chargeName,
-            hours,
-            valueByHour,
-            startDate: role.taskStartDate,
-            endDate: role.taskDueDate,
-            estimatedValue: hours * valueByHour,
-            estimatedHours: hours,
-            absences: [],
-          });
-        })
-      );
-      router.push(`/${page}?projectId=${projectId}`);
-    } catch (error) {
-      console.error(error);
-    }
+    router.push(`/${page}?projectId=${projectId}`);
   }
   return (
     <Container>

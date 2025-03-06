@@ -19,14 +19,13 @@ export const ExportButtons = () => {
   const { getTasksInfos } = useTasksOfProject();
   const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
 
-  const projectName = projectSelectedValue.selectedValue["projectRow-text"] || "Sem projeto";
+  const projectName =
+    projectSelectedValue.selectedValue["projectRow-text"] || "Sem projeto";
 
   const handleExport = async () => {
     try {
       setIsLoading(true);
       const roles = getTasksInfos();
-
-      console.log(projectSelectedValue);
 
       if (!roles) {
         showToast("error", "Erro", "Nenhuma tarefa encontrada");
@@ -80,11 +79,7 @@ export const ExportButtons = () => {
             icon={<PiMicrosoftExcelLogoFill size={24} />}
             loading={isLoading}
           />
-          <TextButton
-            text="Pdf"
-            icon={<BsFiletypePdf size={24} />}
-            disabled
-          />
+          <TextButton text="Pdf" icon={<BsFiletypePdf size={24} />} disabled />
         </ButtonsContainer>
       )}
     </>

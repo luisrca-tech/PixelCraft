@@ -16,7 +16,6 @@ export default function InputsDataContainer() {
   const [rowsAndSelectedValues] = useAtom(rowsAndSelectedValuesAtom);
   const rows = rowsAndSelectedValues.rows;
 
-  // Verifica se o selectedItemIndex é igual a 'projectRow'
   const isProjectRowSelected = selectedItemIndex === "projectRow";
 
   return (
