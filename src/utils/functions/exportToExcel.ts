@@ -4,14 +4,26 @@ import { useGetInputValueAtIndex } from "./getInputValueAtIndex";
 import { useProcessRoles } from "./useProcessRoles";
 
 export function useExportToExcel() {
-    const processedRolesData = useProcessRoles()
+    const { processedRolesData, tasksError, absencesError, isLoading } = useProcessRoles();
     const projectHeaderInputValue = useGetInputValueAtIndex(
         undefined,
         "projectRow",
-        true,
+        true
     );
 
+    let errorMessage = "";
+
+    if (tasksError || absencesError) {
+        errorMessage = tasksError?.message || absencesError?.message || "Erro ao carregar dados";
+    } else if (!processedRolesData || processedRolesData.length === 0) {
+        errorMessage = "Nenhum dado disponível para exportação.";
+    }
+
     const exportExcel = () => {
+        if (errorMessage) {
+            return; // Não executa a exportação se houver erro
+        }
+
         const ws = XLSX.utils.json_to_sheet(processedRolesData);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Projetos");
@@ -24,5 +36,9 @@ export function useExportToExcel() {
         saveAs(fileData, fileName);
     };
 
-    return exportExcel;
+    return {
+        exportExcel,
+        errorMessage,
+        isLoading
+    };
 }
