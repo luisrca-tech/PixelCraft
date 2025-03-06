@@ -1,6 +1,7 @@
 import { useGetInputValueAtIndex } from "./getInputValueAtIndex";
 import { api } from "~/trpc/react";
 import { type Tasks as Task } from "@prisma/client";
+import { getMonthsForTask } from "./getMonthsForTask";
 
 export function useProcessRoles() {
   const projectHeaderInputValue = useGetInputValueAtIndex(
@@ -18,15 +19,26 @@ export function useProcessRoles() {
   });
 
   const processRoles = () => {
-    if (!tasks) return [];
+    if (!tasks || !absences) return [];
 
     return tasks
       .map((task: Task) => {
-        const taskAbsences =
-          absences?.filter((absence) => absence.taskId === task.id) || [];
+        const months = getMonthsForTask(task);
 
-        return taskAbsences.map((absence) => {
-          const workedHours = task.hours - absence.absences;
+        return months.map((monthYear) => {
+          const [month, year] = monthYear.split("-");
+          const yearNumber = year ? parseInt(year) : 0;
+
+
+          const absenceForMonth = absences.find(
+            (absence) =>
+              absence.taskId === task.id &&
+              absence.month.toString().padStart(2, "0") === month &&
+              absence.year === yearNumber
+          );
+
+          const absencesCount = absenceForMonth?.absences ?? 0;
+          const workedHours = task.hours - absencesCount;
           const estimatedValue = task.valueByHour * task.hours;
           const realValue = task.valueByHour * workedHours;
 
@@ -34,9 +46,9 @@ export function useProcessRoles() {
             Projeto: task.projectName,
             Pessoa: task.name,
             Cargo: task.role,
-            "Mês Referência": absence.month,
-            Ano: absence.year,
-            Ausências: absence.absences,
+            "Mês Referência": month,
+            Ano: yearNumber,
+            Ausências: absencesCount,
             "Horas Planejadas": task.hours,
             "Horas Trabalhadas": workedHours,
             "Valor/Hora": task.valueByHour,
