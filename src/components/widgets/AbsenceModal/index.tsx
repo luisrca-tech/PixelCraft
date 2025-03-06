@@ -6,6 +6,7 @@ import {
   CloseButton,
   Title,
   MonthsContainer,
+  InputContainer,
 } from "./styles";
 import Input from "~/components/inputs/Input";
 import { type TaskInfo } from "~/server/types/Clickup.type";
@@ -74,12 +75,15 @@ const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
             {task.months.map((month, index) => (
               <div key={month}>
                 <label>{getMonthName(month)}</label>
-                <Input
-                  type="text"
-                  placeholder="Dias de ausência"
-                  onKeyDown={allowOnlyNumbers}
-                  {...register(`absencesForTask.${index}.absences`)}
-                />
+                <InputContainer>
+                  <Input
+                    type="text"
+                    placeholder="Horas"
+                    onKeyDown={allowOnlyNumbers}
+                    {...register(`absencesForTask.${index}.absences`)}
+                  />
+                  <span>Horas</span>
+                </InputContainer>
               </div>
             ))}
           </MonthsContainer>
