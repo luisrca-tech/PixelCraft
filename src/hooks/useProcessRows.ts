@@ -15,6 +15,17 @@ export interface ChargeFieldSelectedValue {
   hourPerValueNumber: number;
   reqMethod: string | undefined;
   taskId: string | undefined;
+  chargeTextValue: string | undefined;
+}
+
+export interface Role {
+  taskId: string;
+  chargeName: string | undefined;
+  fieldName: string;
+  hours: number;
+  valueByHour: number;
+  taskStartDate: Date;
+  taskDueDate: Date;
 }
 
 export function useProcessRows() {
@@ -27,7 +38,8 @@ export function useProcessRows() {
   const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
   const projectFieldSelectedValue =
     projectSelectedValue.selectedValue["projectRow-option"];
-
+  const projectName =
+    projectSelectedValue.selectedValue["projectRow-text"] || "Sem projeto";
   const mutationUpdateTask = api.clickup.updateTask.useMutation();
   const mutationPostTask = api.clickup.postTask.useMutation();
   const mutationChargeCustomField =
@@ -38,17 +50,20 @@ export function useProcessRows() {
     api.clickup.postHourPMonthCustomField.useMutation();
   const mutationValueCustomField =
     api.clickup.postValueCustomField.useMutation();
+  const createTask = api.task.createTask.useMutation();
 
   function getOptionValueForRow(
     row: string,
     selectedValues: { [key: string]: string }
   ): ChargeFieldSelectedValue {
+    const firstTextValue = `firstTextValue${row}-text`;
     const firstValue = `firstTextValue${row}-option`;
     const secondValue = `secondTextValue${row}-text`;
     const thirdValue = `thirdTextValue${row}-text`;
     const reqMethod = selectedValues[`reqMethod${row}`];
     const taskId = selectedValues[`taskId${row}`];
 
+    const chargeTextValue = selectedValues[firstTextValue]
     const chargeValueNumber = Number(selectedValues[firstValue]);
     const hoursPerMonthValueNumber = Number(selectedValues[secondValue]);
     const hourPerValueNumber = Number(selectedValues[thirdValue]);
@@ -59,6 +74,7 @@ export function useProcessRows() {
       hourPerValueNumber,
       reqMethod,
       taskId,
+      chargeTextValue
     };
   }
 
@@ -75,6 +91,7 @@ export function useProcessRows() {
 
   async function processRows() {
     let toastMessage;
+    const roles: Role[] = [];
 
     const tasksIdsPromises = [];
     for (let i = 0; i < rows.length - 1; i++) {
@@ -90,30 +107,47 @@ export function useProcessRows() {
       const startDate = FieldDateSelectedValue?.startDate;
       const endDate = FieldDateSelectedValue?.endDate;
       if (FieldDateSelectedValue) {
-        let taskId;
+        let taskId = FieldSelectedValue.taskId;
 
         if (reqMethod === "PUT") {
-          taskId = FieldSelectedValue.taskId;
-
           tasksIdsPromises.push(
             mutationUpdateTask.mutateAsync({
               userId: userId ?? "",
-
               Dates: { startDate, endDate },
               taskId: taskId,
             })
           );
           toastMessage = "Projeto atualizado";
         } else {
+
+          const roleIndex = roles.length;
           tasksIdsPromises.push(
-            mutationPostTask.mutateAsync({
-              userId: userId ?? "",
-              row: row,
-              Dates: { startDate, endDate },
-            })
+            mutationPostTask
+              .mutateAsync({
+                userId: userId ?? "",
+                row: row,
+                Dates: { startDate, endDate },
+              })
+              .then((result) => {
+                if (result?.taskId && roles[roleIndex]) {
+                  roles[roleIndex].taskId = result.taskId;
+                }
+                return result;
+              })
           );
           toastMessage = "Projeto criado";
         }
+
+
+        roles.push({
+          taskId: taskId || "",
+          chargeName: FieldSelectedValue.chargeTextValue,
+          fieldName: "",
+          hours: FieldSelectedValue.hoursPerMonthValueNumber,
+          valueByHour: FieldSelectedValue.hourPerValueNumber,
+          taskStartDate: startDate || new Date(),
+          taskDueDate: endDate || new Date(),
+        });
       }
     }
 
@@ -172,7 +206,29 @@ export function useProcessRows() {
       }
     }
 
-    return { toastMessage, projectFieldSelectedValue };
+
+    await Promise.all(
+      roles.map(async (role) => {
+        const hours = Array.isArray(role.hours) ? 0 : role.hours;
+        const valueByHour = Array.isArray(role.valueByHour) ? 0 : role.valueByHour;
+
+        await createTask.mutateAsync({
+          taskId: role.taskId,
+          projectName: projectName,
+          name: role.fieldName,
+          role: role.chargeName,
+          hours,
+          valueByHour,
+          startDate: role.taskStartDate,
+          endDate: role.taskDueDate,
+          estimatedValue: hours * valueByHour,
+          estimatedHours: hours,
+          absences: [],
+        });
+      })
+    );
+
+    return { toastMessage, projectFieldSelectedValue, roles };
   }
 
   return {
