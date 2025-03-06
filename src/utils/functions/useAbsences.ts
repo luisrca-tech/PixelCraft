@@ -42,7 +42,6 @@ export const useAbsences = (task: TaskInfo, reset: (data: AbsencesData) => void)
                 }),
             };
 
-            // Executa o reset com os dados formatados
             reset(formattedData);
 
             return formattedData;
