@@ -1,6 +1,4 @@
-import { z } from "zod";
 import { getClickupKeys } from "~/app/api/cliickup/get-clickup-keys";
-import { EndPointClickUpApiEnum } from "~/clickUpEnumType/EndPointClickUpApiEnum";
 import { configurationSchemaTrpc } from "~/server/schemas/configurationKeys.schema";
 import { type CustomField, type Task } from "~/server/types/Clickup.type";
 import { showToast } from "~/utils/functions/showToast";
