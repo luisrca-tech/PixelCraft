@@ -1,20 +1,32 @@
 import { z } from "zod";
 import { getClickupKeys } from "~/app/api/cliickup/get-clickup-keys";
-import { EndPointClickUpApiEnum } from "~/clickUpApi/EndPointClickUpApiEnum";
+import { EndPointClickUpApiEnum } from "~/clickUpEnumType/EndPointClickUpApiEnum";
 import { configurationSchemaTrpc } from "~/server/schemas/configurationKeys.schema";
 import { type CustomField, type Task } from "~/server/types/Clickup.type";
 import { showToast } from "~/utils/functions/showToast";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { updateTaskNameInDbSchema } from "./Tasks/schemas/updateTaskNameInDbSchema";
+import { postHourPMonthSchema } from "~/server/schemas/postHourPMonth.schema";
+import { postValueSchema } from "~/server/schemas/postValue.schema";
+import { postProjectSchema } from "~/server/schemas/postProject.schema";
+import { postChargeSchema } from "~/server/schemas/postCharge.schema";
+import { updateTaskNameInClickUpSchema } from "~/server/schemas/updateTaskNameInClickUp.schema";
+import { deleteTaskSchema } from "~/server/schemas/deleteTask.schema";
+import { updateTaskInClickupSchema } from "~/server/schemas/updateTaskInClickup.schema";
+import { postTaskInClickUpSchema } from "~/server/schemas/postTaskInClickUp.schema";
+import { getTasksInClickupSchema } from "~/server/schemas/getTasksInClickup.schema";
+import { getCustomFieldsSchema } from "~/server/schemas/getCustomFields.schema";
+import { getClickUpKeysSchema } from "~/server/schemas/getClickupKeys.schema";
 
 export const clickupRouter = createTRPCRouter({
   getClickupKeys: publicProcedure
-    .input(z.object({ userId: z.string() }))
+    .input(getClickUpKeysSchema)
     .query(async ({ input }) => {
       return await getClickupKeys(input.userId);
     }),
 
   getCustomFields: publicProcedure
-    .input(z.object({ endPoint: EndPointClickUpApiEnum, userId: z.string() }))
+    .input(getCustomFieldsSchema)
     .query<CustomField[]>(async ({ input }) => {
       const { AuthorizationPkKey, listId } = await getClickupKeys(input.userId);
       const response = await fetch(
@@ -40,7 +52,7 @@ export const clickupRouter = createTRPCRouter({
     }),
 
   getTasks: publicProcedure
-    .input(z.object({ endPoint: EndPointClickUpApiEnum, userId: z.string() }))
+    .input(getTasksInClickupSchema)
     .query<Task[]>(async ({ input }) => {
       const { AuthorizationPkKey, listId } = await getClickupKeys(input.userId);
       const response = await fetch(
@@ -67,14 +79,7 @@ export const clickupRouter = createTRPCRouter({
 
   postTask: publicProcedure
     .input(
-      z.object({
-        userId: z.string(),
-        row: z.string().optional(),
-        Dates: z.object({
-          startDate: z.date().optional(),
-          endDate: z.date().optional(),
-        }),
-      })
+      postTaskInClickUpSchema
     )
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey, listId } = await getClickupKeys(input.userId);
@@ -104,14 +109,7 @@ export const clickupRouter = createTRPCRouter({
 
   updateTask: publicProcedure
     .input(
-      z.object({
-        userId: z.string(),
-        Dates: z.object({
-          startDate: z.date().optional(),
-          endDate: z.date().optional(),
-        }),
-        taskId: z.string().optional(),
-      })
+      updateTaskInClickupSchema
     )
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
@@ -138,10 +136,7 @@ export const clickupRouter = createTRPCRouter({
 
   deleteTask: publicProcedure
     .input(
-      z.object({
-        userId: z.string(),
-        taskId: z.string().optional(),
-      })
+      deleteTaskSchema
     )
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
@@ -162,13 +157,9 @@ export const clickupRouter = createTRPCRouter({
       return { taskId, message: "Task deletada com sucesso." };
     }),
 
-  updateTaskName: publicProcedure
+  updateTaskNameInClickUp: publicProcedure
     .input(
-      z.object({
-        userId: z.string(),
-        taskIds: z.array(z.string()).optional(),
-        names: z.array(z.string()).optional(),
-      })
+      updateTaskNameInClickUpSchema
     )
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
@@ -189,7 +180,7 @@ export const clickupRouter = createTRPCRouter({
       }
 
       const updatePromises = taskIds.map(async (taskId, index) => {
-        const updateTaskNameResp = await fetch(
+        const updateTaskNameInClickUpResp = await fetch(
           `https://api.clickup.com/api/v2/task/${taskId}`,
           {
             method: "PUT",
@@ -203,11 +194,11 @@ export const clickupRouter = createTRPCRouter({
           }
         );
 
-        if (!updateTaskNameResp.ok) {
+        if (!updateTaskNameInClickUpResp.ok) {
           throw new Error(`Failed to update task name for task ID: ${taskId}`);
         }
 
-        return updateTaskNameResp.json();
+        return updateTaskNameInClickUpResp.json();
       });
 
       await Promise.all(updatePromises);
@@ -217,12 +208,7 @@ export const clickupRouter = createTRPCRouter({
 
   postChargeCustomField: publicProcedure
     .input(
-      z.object({
-        postTaskId: z.string(),
-        chargeFieldId: z.string().optional(),
-        chargeFieldSelectedValue: z.number().optional(),
-        userId: z.string(),
-      })
+      postChargeSchema
     )
     .mutation(async ({ input }) => {
       const { postTaskId, chargeFieldId, chargeFieldSelectedValue, userId } =
@@ -246,13 +232,7 @@ export const clickupRouter = createTRPCRouter({
 
   postProjectCustomField: publicProcedure
     .input(
-      z.object({
-        postTaskId: z.string(),
-        userId: z.string(),
-        projectFieldId: z.string().optional(),
-
-        projectFieldSelectedValue: z.string().optional(),
-      })
+      postProjectSchema
     )
     .mutation(async ({ input }) => {
       const { postTaskId, projectFieldId, projectFieldSelectedValue, userId } =
@@ -277,12 +257,7 @@ export const clickupRouter = createTRPCRouter({
 
   postValueCustomField: publicProcedure
     .input(
-      z.object({
-        postTaskId: z.string(),
-        valueFieldId: z.string().optional(),
-        valueFieldSelectedValue: z.number().optional(),
-        userId: z.string(),
-      })
+      postValueSchema
     )
     .mutation(async ({ input }) => {
       const { postTaskId, valueFieldId, valueFieldSelectedValue, userId } =
@@ -305,12 +280,7 @@ export const clickupRouter = createTRPCRouter({
 
   postHourPMonthCustomField: publicProcedure
     .input(
-      z.object({
-        postTaskId: z.string(),
-        hoursPerMonthCustomFieldId: z.string().optional(),
-        hoursPMonthFieldSelectedValue: z.number().optional(),
-        userId: z.string(),
-      })
+      postHourPMonthSchema
     )
     .mutation(async ({ input }) => {
       const {
@@ -364,4 +334,26 @@ export const clickupRouter = createTRPCRouter({
         );
       }
     }),
+
+  updateTaskNameInDb: publicProcedure
+    .input(
+      updateTaskNameInDbSchema
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { taskId, name } = input
+      const task = await ctx.db.tasks.update({
+        where: {
+          id: taskId,
+        },
+        data: {
+          name,
+        },
+      });
+
+      return task;
+    }),
+
+
+
+
 });
