@@ -27,7 +27,9 @@ export function FormForPeople() {
   const userId = session?.user.id;
   const { getTasksInfos } = useTasksOfProject();
   const roles = getTasksInfos();
-  const updateTaskName = api.clickup.updateTaskName.useMutation();
+  const updateTaskNameInClickUp =
+    api.clickup.updateTaskNameInClickUp.useMutation();
+  const updateTaskNameInDb = api.clickup.updateTaskNameInDb.useMutation();
   const [isLoading, setIsLoading] = useAtom(loadingAtom);
   const [, setPeopleState] = useAtom(allocatedPeopleAtom);
 
@@ -45,11 +47,21 @@ export function FormForPeople() {
   const onSubmit = async ({ names }: formPersonsData) => {
     setIsLoading(true);
     try {
-      await updateTaskName.mutateAsync({
+      await updateTaskNameInClickUp.mutateAsync({
         userId: userId ?? "",
         taskIds: roles?.map((role) => role.taskId),
         names: names,
       });
+      if (roles) {
+        await Promise.all(
+          roles.map((role, index) =>
+            updateTaskNameInDb.mutateAsync({
+              taskId: role.taskId,
+              name: names[index] || "",
+            })
+          )
+        );
+      }
 
       showToast("success", "Pessoas alocadas com sucesso!");
       window.location.href = `/espelho?projectId=${projectId}`;
