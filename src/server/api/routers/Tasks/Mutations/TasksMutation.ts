@@ -1,6 +1,6 @@
 import { publicProcedure } from "~/server/api/trpc";
-import { taskSchema } from "../schemas/task.schema";
-
+import { taskSchema } from "../schemas/taskSchema";
+import { updateTaskNameInDbSchema } from "../schemas/updateTaskNameInDbSchema";
 export const TaskMutations = {
   createTask: publicProcedure
     .input(taskSchema)
@@ -68,4 +68,22 @@ export const TaskMutations = {
 
       return task;
     }),
+
+  updateTaskNameInDb: publicProcedure
+    .input(updateTaskNameInDbSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { taskId, name } = input;
+      const task = await ctx.db.tasks.update({
+        where: {
+          id: taskId,
+        },
+        data: {
+          name,
+        },
+      });
+
+      return task;
+    }),
+
+
 };

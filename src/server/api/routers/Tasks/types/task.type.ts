@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { taskSchema } from "../schemas/task.schema";
+import type { taskSchema } from "../schemas/taskSchema";
 
 export interface TaskWithAbsences {
   id: string;
