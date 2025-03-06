@@ -21,7 +21,7 @@ export const TextButton = ({
       onClick={action}
       type="button"
       disabled={disabled || loading}
-      style={{ opacity: loading ? 0.7 : 1 }}
+      style={{ opacity: disabled ? 0.7 : 1 }}
     >
       {loading ? (
         "Salvando..."
