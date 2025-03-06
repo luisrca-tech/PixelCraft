@@ -7,7 +7,7 @@ import { fieldsIdsAtom } from "~/@atom/api/CustomFields/fieldsIds";
 import { projectsWihoutTasksAtom } from "~/@atom/ProjectStates/projectsWithoutTasksAtom";
 import { loadingAtom } from "~/@atom/LoadingState/loadingAtom";
 import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
-import { EndPointClickUpApiEnum } from "~/clickUpApi/EndPointClickUpApiEnum";
+import { EndPointClickUpApiEnum } from "~/clickUpEnumType/EndPointClickUpApiEnum";
 import { getMonthsForTask } from "~/utils/functions/getMonthsForTask";
 import {
   type CustomField,

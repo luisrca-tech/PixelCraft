@@ -2,7 +2,7 @@ import { useSession } from "@clerk/nextjs";
 import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { projectOptionsAtom } from "~/@atom/ProjectStates/projectOptions";
-import { EndPointClickUpApiEnum } from "~/clickUpApi/EndPointClickUpApiEnum";
+import { EndPointClickUpApiEnum } from "~/clickUpEnumType/EndPointClickUpApiEnum";
 import { type CustomField, type OptionType } from "~/server/types/Clickup.type";
 import { api } from "~/trpc/react";
 
