@@ -1,10 +1,16 @@
 import { styled } from "@linaria/react";
 import { theme } from "~/app/styles/theme";
 
-export const Container = styled.div`
+
+interface ContainerProps {
+  isProjectRowSelected: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  z-index: ${({ isProjectRowSelected }) => (isProjectRowSelected ? '-1' : 'auto')};
 `;
 
 export const SkeletonContainer = styled.div`
@@ -16,4 +22,4 @@ export const SkeletonContainer = styled.div`
   align-items: center;
   border-radius: 60px;
   gap: 0.2rem;
-`
+`;

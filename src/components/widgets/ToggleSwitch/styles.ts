@@ -2,6 +2,9 @@ import { theme } from "~/app/styles/theme";
 import { styled } from "@linaria/react";
 import "@radix-ui/colors/black-alpha.css";
 
+interface SwitchContainerProps {
+  isProjectRowSelected: boolean;
+}
 export const Container = styled.div`
   width: 52px;
   height: 28px;
@@ -55,12 +58,12 @@ export const Container = styled.div`
   }
 `;
 
-export const SwitchContainer = styled.div`
+export const SwitchContainer = styled.div<SwitchContainerProps>`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  z-index: ${({ isProjectRowSelected }) => (isProjectRowSelected ? '-1' : 'auto')};
   span {
     font-size: 14px;
     font-weight: 600;
