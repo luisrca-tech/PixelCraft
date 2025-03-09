@@ -15,6 +15,7 @@ export const useAbsences = (task: TaskInfo, reset: (data: AbsencesData) => void)
         data: absences,
         isLoading: absencesIsLoading,
         isFetched: absencesIsFetched,
+        refetch,
     } = api.absences.getAbsencesByProjectName.useQuery({
         projectName: projectHeaderInputValue || "",
     });
@@ -53,5 +54,6 @@ export const useAbsences = (task: TaskInfo, reset: (data: AbsencesData) => void)
         absences: formattedAbsences,
         isLoading: absencesIsLoading,
         isFetched: absencesIsFetched,
+        refetch,
     };
 };

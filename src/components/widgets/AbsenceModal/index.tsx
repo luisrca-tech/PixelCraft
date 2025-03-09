@@ -33,11 +33,17 @@ const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
     resolver: zodResolver(absenceSchema),
   });
 
-  useAbsences(task, reset);
+  const { refetch } = useAbsences(task, reset);
 
   const peopleName = task.fieldName || "(sem nome)";
 
-  const upsertAbsences = api.absences.upsertAbsences.useMutation();
+  const upsertAbsences = api.absences.upsertAbsences.useMutation({
+    onSuccess: async () => {
+      await refetch();
+      showToast("success", `Ausências de ${peopleName} registradas`);
+      onClose();
+    },
+  });
 
   const onSubmit = async (data: AbsencesData) => {
     try {
@@ -50,13 +56,8 @@ const AbsenceModal = ({ task, onClose }: AbsenceModalProps) => {
       await upsertAbsences.mutateAsync({
         absencesForTask: formattedData,
       });
-
-      showToast("success", `Ausências de ${peopleName} registradas`);
-      onClose();
-      window.location.reload();
     } catch (error) {
       showToast("error", "Erro ao registrar ausências");
-      console.error(error);
     }
   };
 
