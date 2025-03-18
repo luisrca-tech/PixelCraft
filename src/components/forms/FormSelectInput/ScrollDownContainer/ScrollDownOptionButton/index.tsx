@@ -6,7 +6,6 @@ import { type OptionType } from "~/server/types/Clickup.type";
 import Image from "next/image";
 import AddButton from "public/add.svg";
 import { poppins } from "~/app/fonts";
-import { useToggleSelectOpen } from "~/utils/functions/toggleSelectedOpen";
 import { selectedItemIndexAtom } from "~/@atom/ProjectStates/selectedItemIndexAtom";
 
 type ScrollDownOptionButtonType = {

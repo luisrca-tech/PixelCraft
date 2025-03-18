@@ -23,9 +23,7 @@ export default function HeaderSelectInput({
   ...rest
 }: SelectInputProps) {
   const { getTasksInfos } = useTasksOfProject();
-  const [selectedItemIndex, setSelectedItemIndex] = useAtom(
-    selectedItemIndexAtom
-  );
+  const [, setSelectedItemIndex] = useAtom(selectedItemIndexAtom);
   const projectAttributes = getTasksInfos();
   const [checked] = useAtom(checkedAtom);
   const [, setProjectSelectedValue] = useAtom(projectSelectedValuePropAtom);

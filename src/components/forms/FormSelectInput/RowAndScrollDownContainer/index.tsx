@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Container } from "./styles";
-import { useAtom } from "jotai";
-import { rowsAndSelectedValuesAtom } from "~/@atom/ProjectStates/rowsAndSelectedValuesAtom";
 import { useGetLastRowIndex } from "~/utils/functions/getLastRowIndex";
 import { useIsSelectOpen } from "~/utils/functions/isSelectOpen";
 import ScrollDownContainer from "~/components/forms/FormSelectInput/ScrollDownContainer";
 import { InputsRow } from "./InputsRow";
-import { api } from "~/trpc/react";
 import { useSession } from "@clerk/nextjs";
 import { useRemoveRow } from "~/utils/functions/removeRow";
 
@@ -17,14 +14,9 @@ interface RowAndScrollDownContainerProps {
 export default function RowAndScrollDownContainer({
   row,
 }: RowAndScrollDownContainerProps) {
-  const mutationDeleteTask = api.clickup.deleteTask.useMutation();
   const { session } = useSession();
   const userId = session?.user.id;
-  const [rowsAndSelectedValues, setRowsAndSelectedValues] = useAtom(
-    rowsAndSelectedValuesAtom
-  );
   const { removeRow } = useRemoveRow();
-
   const [startX, setStartX] = useState<number | null>(null);
   const [offsetXByRow, setOffsetXByRow] = useState<{ [key: string]: number }>(
     {}
@@ -32,34 +24,6 @@ export default function RowAndScrollDownContainer({
 
   const lastRowIndex = useGetLastRowIndex();
   const isLastRow = row === lastRowIndex;
-
-  // async function removeRow(rowIndex: string) {
-  //   const taskId = rowsAndSelectedValues.selectedValues[`taskId${rowIndex}`];
-  //   setRowsAndSelectedValues((prevState) => {
-  //     const removedRows = prevState.rows.filter((row) => row !== rowIndex);
-  //     const updatedSelectedValues = { ...prevState.selectedValues };
-
-  //     Object.keys(updatedSelectedValues).forEach((key) => {
-  //       if (
-  //         key.includes(`firstTextValue${rowIndex}`) ||
-  //         key.includes(`secondTextValue${rowIndex}`) ||
-  //         key.includes(`thirdTextValue${rowIndex}`)
-  //       ) {
-  //         delete updatedSelectedValues[key];
-  //       }
-  //     });
-
-  //     return {
-  //       rows: removedRows,
-  //       selectedValues: updatedSelectedValues,
-  //     };
-  //   });
-
-  //   await mutationDeleteTask.mutateAsync({
-  //     taskId: taskId,
-  //     userId: userId ?? "",
-  //   });
-  // }
 
   function handleTouchStartForRow(event: React.TouchEvent, rowIndex: string) {
     if (event.touches[0]) {

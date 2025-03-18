@@ -1,6 +1,8 @@
 import { publicProcedure } from "~/server/api/trpc";
 import { taskSchema } from "../schemas/taskSchema";
 import { updateTaskNameInDbSchema } from "../schemas/updateTaskNameInDbSchema";
+import { deleteDbTaskSchema } from "~/server/schemas/deleteDbTask.schema";
+
 export const TaskMutations = {
   createTask: publicProcedure
     .input(taskSchema)
@@ -84,6 +86,17 @@ export const TaskMutations = {
 
       return task;
     }),
+
+  deleteTaskInDb: publicProcedure.input(deleteDbTaskSchema).mutation(async ({ ctx, input }) => {
+    const { taskId } = input;
+    const deleteTask = await ctx.db.tasks.delete({
+      where: {
+        id: taskId
+      },
+    })
+    return deleteTask
+  }),
+
 
 
 };

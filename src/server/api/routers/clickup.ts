@@ -9,12 +9,13 @@ import { postValueSchema } from "~/server/schemas/postValue.schema";
 import { postProjectSchema } from "~/server/schemas/postProject.schema";
 import { postChargeSchema } from "~/server/schemas/postCharge.schema";
 import { updateTaskNameInClickUpSchema } from "~/server/schemas/updateTaskNameInClickUp.schema";
-import { deleteTaskSchema } from "~/server/schemas/deleteTask.schema";
+import { deleteClickupTaskSchema } from "~/server/schemas/deleteClickupTask.schema";
 import { updateTaskInClickupSchema } from "~/server/schemas/updateTaskInClickup.schema";
 import { postTaskInClickUpSchema } from "~/server/schemas/postTaskInClickUp.schema";
 import { getTasksInClickupSchema } from "~/server/schemas/getTasksInClickup.schema";
 import { getCustomFieldsSchema } from "~/server/schemas/getCustomFields.schema";
 import { getClickUpKeysSchema } from "~/server/schemas/getClickupKeys.schema";
+
 
 export const clickupRouter = createTRPCRouter({
   getClickupKeys: publicProcedure
@@ -133,8 +134,8 @@ export const clickupRouter = createTRPCRouter({
     }),
 
   deleteTask: publicProcedure
-    .input(deleteTaskSchema)
-    .mutation(async ({ input }) => {
+    .input(deleteClickupTaskSchema)
+    .mutation(async ({ ctx, input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
       const { taskId } = input;
 
@@ -159,8 +160,11 @@ export const clickupRouter = createTRPCRouter({
 
         return { taskId, genericalError: true };
       }
-
-
+      await ctx.db.tasks.delete({
+        where: {
+          id: taskId,
+        },
+      });
       return { taskId, sucess: true };
     }),
 
