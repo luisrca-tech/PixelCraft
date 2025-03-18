@@ -45,7 +45,7 @@ export const EditDateContainer = styled.div`
 
   span {
     width: 100%;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 700;
   }
 

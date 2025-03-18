@@ -133,9 +133,7 @@ export const clickupRouter = createTRPCRouter({
     }),
 
   deleteTask: publicProcedure
-    .input(
-      deleteTaskSchema
-    )
+    .input(deleteTaskSchema)
     .mutation(async ({ input }) => {
       const { AuthorizationPkKey } = await getClickupKeys(input.userId);
       const { taskId } = input;
@@ -144,7 +142,7 @@ export const clickupRouter = createTRPCRouter({
         throw new Error("TaskId é obrigatório nesta requisição.");
       }
 
-      await fetch(`https://api.clickup.com/api/v2/task/${taskId}`, {
+      const response = await fetch(`https://api.clickup.com/api/v2/task/${taskId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +150,18 @@ export const clickupRouter = createTRPCRouter({
         },
       });
 
-      return { taskId, message: "Task deletada com sucesso." };
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        if (errorResponse.ECODE && errorResponse.ECODE === 'ACCESS_081') {
+
+          return { taskId, authError: true }
+        }
+
+        return { taskId, genericalError: true };
+      }
+
+
+      return { taskId, sucess: true };
     }),
 
   updateTaskNameInClickUp: publicProcedure

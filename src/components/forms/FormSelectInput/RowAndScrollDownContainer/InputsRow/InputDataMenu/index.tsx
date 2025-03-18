@@ -23,7 +23,7 @@ export function InputDataMenu({ row }: InputDataMenuProps) {
   return (
     <Container
       className={poppins.className}
-      disabled={isLastRow}
+      // disabled={isLastRow}
       isRangeInThisRow={isRangeInThisRow}
       onClick={() => handleInputDataMenuClick(row)}
       isLastRow={isLastRow}

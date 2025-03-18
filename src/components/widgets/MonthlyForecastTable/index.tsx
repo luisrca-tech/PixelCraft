@@ -50,7 +50,7 @@ export function MonthlyForecastTable() {
         >
           <FaArrowAltCircleLeft size={30} />
         </button>
-        <h3 className="desktop-only">Previsão de gastos</h3>
+        <h3 className="desktop-only">Previsão Mensal</h3>
         <button
           type="button"
           onClick={handleNextMonth}
@@ -60,7 +60,7 @@ export function MonthlyForecastTable() {
         </button>
       </div>
       <ForecastGrid ref={sliderRef} className="keen-slider">
-        {Array.from({ length: totalMonths + 1 }).map((_, idx) => {
+        {Array.from({ length: totalMonths }).map((_, idx) => {
           const currentMonth = addMonths(earliestStartDate, idx);
           const monthKey = `${currentMonth.getFullYear()}-${
             currentMonth.getMonth() + 1

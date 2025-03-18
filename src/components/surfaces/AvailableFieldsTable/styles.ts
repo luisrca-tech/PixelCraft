@@ -5,7 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 13rem;
+  max-height: 15rem;
 `;
 
 export const TableTitle = styled.div`

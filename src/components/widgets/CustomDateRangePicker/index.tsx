@@ -8,7 +8,7 @@ import "./DateRangePicker.css";
 import { useAtom } from "jotai";
 import { rangesAtom } from "~/@atom/ProjectStates/rangesAtom";
 import { stringRowAtom } from "~/@atom/ProjectStates/stringRowAtom";
-import { endOfDay, startOfDay } from "date-fns";
+import { endOfDay, startOfDay, subYears, addYears } from "date-fns";
 
 export function CustomDateRangePicker({}) {
   const [ranges, setRanges] = useAtom(rangesAtom);
@@ -31,9 +31,12 @@ export function CustomDateRangePicker({}) {
           isSelected: true,
         },
       }));
-    } else {
     }
   };
+
+  const minDate = subYears(new Date(), 2);
+
+  const maxDate = addYears(new Date(), 3);
 
   return (
     <Container>
@@ -44,6 +47,8 @@ export function CustomDateRangePicker({}) {
         ranges={[currentRange]}
         direction="vertical"
         locale={ptBR}
+        minDate={minDate}
+        maxDate={maxDate}
       />
     </Container>
   );

@@ -9,6 +9,7 @@ import { Skeleton } from "~/components/widgets/Skeleton";
 import { useTasksOfProject } from "~/hooks/useTasksOfProject";
 import { useGetInputValueAtIndex } from "~/utils/functions/getInputValueAtIndex";
 import { Container, Input } from "./styles";
+import { selectedItemIndexAtom } from "~/@atom/ProjectStates/selectedItemIndexAtom";
 
 interface SelectInputProps {
   isSelectOpen?: boolean;
@@ -22,7 +23,9 @@ export default function HeaderSelectInput({
   ...rest
 }: SelectInputProps) {
   const { getTasksInfos } = useTasksOfProject();
-
+  const [selectedItemIndex, setSelectedItemIndex] = useAtom(
+    selectedItemIndexAtom
+  );
   const projectAttributes = getTasksInfos();
   const [checked] = useAtom(checkedAtom);
   const [, setProjectSelectedValue] = useAtom(projectSelectedValuePropAtom);
@@ -56,9 +59,7 @@ export default function HeaderSelectInput({
   };
 
   const handleInputBlur = () => {
-    if (setIsSelectOpen) {
-      setIsSelectOpen(false);
-    }
+    setSelectedItemIndex(null);
   };
 
   return (

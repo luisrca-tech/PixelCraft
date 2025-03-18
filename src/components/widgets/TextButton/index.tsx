@@ -23,14 +23,10 @@ export const TextButton = ({
       disabled={disabled || loading}
       style={{ opacity: disabled ? 0.7 : 1 }}
     >
-      {loading ? (
-        "Salvando..."
-      ) : (
-        <>
-          {text && <span className={poppins.className}>{text}</span>}
-          {icon}
-        </>
-      )}
+      <>
+        {text && <span className={poppins.className}>{text}</span>}
+        {icon}
+      </>
     </ButtonContainer>
   );
 };

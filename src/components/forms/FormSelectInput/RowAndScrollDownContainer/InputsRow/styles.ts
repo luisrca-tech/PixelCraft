@@ -18,7 +18,7 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   border-radius: 20px;
   justify-content: space-between;
-  gap: ${(props) => (props.checked ? "28px" : "")};
+  gap: 1rem;
   background: ${theme.COLORS.LIGHT};
   width: 100%;
   position: relative;
@@ -40,11 +40,11 @@ export const DeleteButtonAnimationFrame = styled.button<InputsRowProps>`
   transition: transform 0.5s ease;
   transform: translateX(
     ${(props) =>
-      props.isLastRow
-        ? props.offsetXByRow && props.offsetX
-          ? "0"
-          : "0"
-        : props.offsetXByRow && props.offsetX
+    props.isLastRow
+      ? props.offsetXByRow && props.offsetX
+        ? "0"
+        : "0"
+      : props.offsetXByRow && props.offsetX
         ? "1.5rem"
         : "0"}
   );
@@ -54,3 +54,21 @@ export const DeleteButtonAnimationFrame = styled.button<InputsRowProps>`
   border: 1px solid ${theme.COLORS.WHITE};
   outline: none;
 `;
+
+export const DeleteButtonOnDesktop = styled.button`
+margin: none;
+outline: none;
+border: none;
+background-color: transparent;
+padding-right: 0.75rem;
+
+&:hover{
+  transform: scale(1.1);
+}
+
+@media(max-width: 1024px){
+  display: none;
+}
+
+
+`

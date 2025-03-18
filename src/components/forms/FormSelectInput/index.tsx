@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { type FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import { loadingAtom } from "~/@atom/LoadingState/loadingAtom";
 import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 import {
@@ -18,12 +18,16 @@ import { FormFooter } from "../../surfaces/FormFooter";
 import ToggleSwitch from "~/components/widgets/ToggleSwitch";
 import { useTotalDaysCalc } from "~/utils/functions/useTotalDaysCalc";
 import { useTotalHoursSum } from "~/utils/functions/useTotalHoursSum";
+import ConfirmDeleteModal from "../../widgets/ConfirmDeleteModal";
+import { useSearchParams } from "next/navigation";
 
 type FormSelectInputProps = {
   onReset: () => void;
 };
 
 export default function FormSelectInput({ onReset }: FormSelectInputProps) {
+  const params = useSearchParams();
+  const projectId = params.get("projectId");
   const [rowsAndSelectedValues] = useAtom(rowsAndSelectedValuesAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
   const [projectSelectedValue] = useAtom(projectSelectedValuePropAtom);
@@ -33,6 +37,8 @@ export default function FormSelectInput({ onReset }: FormSelectInputProps) {
   const totalDays = useTotalDaysCalc();
   const { totalHours, totalValue } = useTotalHoursSum();
   const budgetInfo = { totalDays, totalHours, totalValue };
+  const { deleteAllRows } = useProcessRows();
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const selectedValuesNotEmpty2 = Object.values(
     projectSelectedValue.selectedValue
@@ -82,6 +88,11 @@ export default function FormSelectInput({ onReset }: FormSelectInputProps) {
     }
   }
 
+  const handleDeleteAllRows = async () => {
+    await deleteAllRows();
+    setDeleteModalOpen(false);
+  };
+
   return (
     <Container onSubmit={taskPostRequest}>
       <ToggleSwitch />
@@ -95,7 +106,20 @@ export default function FormSelectInput({ onReset }: FormSelectInputProps) {
           loading={loading}
           type="submit"
         />
+        {!!projectId && (
+          <Button
+            text="Excluir Projeto"
+            disabled={loading}
+            type="button"
+            onClick={() => setDeleteModalOpen(true)}
+          />
+        )}
       </FormFooter>
+      <ConfirmDeleteModal
+        open={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteAllRows}
+      />
     </Container>
   );
 }

@@ -8,6 +8,7 @@ import { fieldsIdsAtom } from "~/@atom/api/CustomFields/fieldsIds";
 import { projectSelectedValuePropAtom } from "~/@atom/ProjectStates/projectSelectedValue";
 import { api } from "~/trpc/react";
 import { useSession } from "@clerk/nextjs";
+import { showToast } from "~/utils/functions/showToast";
 
 export interface ChargeFieldSelectedValue {
   chargeValueNumber: number;
@@ -50,6 +51,7 @@ export function useProcessRows() {
     api.clickup.postHourPMonthCustomField.useMutation();
   const mutationValueCustomField =
     api.clickup.postValueCustomField.useMutation();
+  const mutationDeleteTask = api.clickup.deleteTask.useMutation();
   const createTask = api.task.createTask.useMutation();
 
   function getOptionValueForRow(
@@ -63,7 +65,7 @@ export function useProcessRows() {
     const reqMethod = selectedValues[`reqMethod${row}`];
     const taskId = selectedValues[`taskId${row}`];
 
-    const chargeTextValue = selectedValues[firstTextValue]
+    const chargeTextValue = selectedValues[firstTextValue];
     const chargeValueNumber = Number(selectedValues[firstValue]);
     const hoursPerMonthValueNumber = Number(selectedValues[secondValue]);
     const hourPerValueNumber = Number(selectedValues[thirdValue]);
@@ -74,7 +76,7 @@ export function useProcessRows() {
       hourPerValueNumber,
       reqMethod,
       taskId,
-      chargeTextValue
+      chargeTextValue,
     };
   }
 
@@ -119,7 +121,6 @@ export function useProcessRows() {
           );
           toastMessage = "Projeto atualizado";
         } else {
-
           const roleIndex = roles.length;
           tasksIdsPromises.push(
             mutationPostTask
@@ -137,7 +138,6 @@ export function useProcessRows() {
           );
           toastMessage = "Projeto criado";
         }
-
 
         roles.push({
           taskId: taskId || "",
@@ -206,7 +206,6 @@ export function useProcessRows() {
       }
     }
 
-
     await Promise.all(
       roles.map(async (role) => {
         const hours = Array.isArray(role.hours) ? 0 : role.hours;
@@ -231,7 +230,39 @@ export function useProcessRows() {
     return { toastMessage, projectFieldSelectedValue, roles };
   }
 
+
+  async function deleteAllRows() {
+    const deletePromises = rows.map(async (row) => {
+      const taskId = rowsAndSelectedValues.selectedValues[`taskId${row}`];
+      if (!taskId) return null;
+
+      return await mutationDeleteTask.mutateAsync({
+        taskId: taskId,
+        userId: userId ?? "",
+      });
+    });
+
+    const deleteResults = await Promise.all(deletePromises);
+
+    const checkErrors = (results: Array<any>, errorType: string) =>
+      results.some((result) => result?.[errorType]);
+
+    const hasAuthErrors = checkErrors(deleteResults, 'authError');
+    const hasGenericalErrors = checkErrors(deleteResults, 'genericalError');
+    const toastMessages = {
+      auth: "Erro de autorização ao excluir tarefas.",
+      generic: "Erro desconhecido.",
+    };
+
+    if (hasAuthErrors || hasGenericalErrors) {
+      showToast("error", hasAuthErrors ? toastMessages.auth : toastMessages.generic);
+    };
+
+    return deleteResults;
+  }
+
   return {
     processRows,
+    deleteAllRows,
   };
 }

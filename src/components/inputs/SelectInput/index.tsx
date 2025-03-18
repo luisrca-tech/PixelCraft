@@ -5,10 +5,11 @@ import { Container, Input } from "./styles";
 import { useIsValueInInput } from "~/utils/functions/isValueInInput";
 import { useGetInputValueAtIndex } from "~/utils/functions/getInputValueAtIndex";
 import { useGetLastRowIndex } from "~/utils/functions/getLastRowIndex";
+import { selectedItemIndexAtom } from "~/@atom/ProjectStates/selectedItemIndexAtom";
 
 interface SelectInputProps {
   onChange?: (value: string) => void;
-  setIsSelectOpen?: (boolean: boolean) => void;
+  setIsSelectOpen?: () => void;
   row: string;
 }
 
@@ -24,6 +25,7 @@ export default function SelectInput({
   const isValueInFirstInput = useIsValueInInput(row, "firstTextValue");
   const firstInputIdAtIndex = `firstTextValue${row}-option`;
   const firstInputValueAtIndex = useGetInputValueAtIndex("firstTextValue", row);
+  const [, setSelectedItemIndex] = useAtom(selectedItemIndexAtom);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -41,14 +43,12 @@ export default function SelectInput({
 
   const handleInputFocus = () => {
     if (setIsSelectOpen) {
-      setIsSelectOpen(true);
+      setIsSelectOpen();
     }
   };
 
   const handleInputBlur = () => {
-    if (setIsSelectOpen) {
-      setIsSelectOpen(false);
-    }
+    setSelectedItemIndex(null);
   };
 
   return (

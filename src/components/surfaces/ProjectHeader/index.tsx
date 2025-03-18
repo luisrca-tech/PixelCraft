@@ -1,6 +1,6 @@
 import DateContainer from "./DateContainer";
 import { EditProjectContainer } from "./EditProjectContainer";
-import { ExportButtons } from "./ExportXlsxButton";
+import { ExportButtonsContainer } from "./ExportButtons";
 import HeaderBoxProfileImage from "./HeaderBoxProfileImage";
 import { ProjectHeaderRoot } from "./ProjectHeaderRoot";
 
@@ -9,5 +9,5 @@ export const ProjectHeader = {
   EditProject: EditProjectContainer,
   BoxImage: HeaderBoxProfileImage,
   Root: ProjectHeaderRoot,
-  ExportButtons: ExportButtons,
+  ExportButtons: ExportButtonsContainer,
 };
