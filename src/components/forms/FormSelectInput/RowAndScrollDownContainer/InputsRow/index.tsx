@@ -35,28 +35,6 @@ export function InputsRow({ row }: InputRowProps) {
   const lastRowIndex = useGetLastRowIndex();
   const isLastRow = row === lastRowIndex;
 
-  // function removeRow(rowIndex: string) {
-  //   setRowsAndSelectedValues((prevState) => {
-  //     const removedRows = prevState.rows.filter((row) => row !== rowIndex);
-  //     const updatedSelectedValues = { ...prevState.selectedValues };
-
-  //     Object.keys(updatedSelectedValues).forEach((key) => {
-  //       if (
-  //         key.includes(`firstTextValue${rowIndex}`) ||
-  //         key.includes(`secondTextValue${rowIndex}`) ||
-  //         key.includes(`thirdTextValue${rowIndex}`)
-  //       ) {
-  //         delete updatedSelectedValues[key];
-  //       }
-  //     });
-
-  //     return {
-  //       rows: removedRows,
-  //       selectedValues: updatedSelectedValues,
-  //     };
-  //   });
-  // }
-
   function handleInputChange(row: string, value: string) {
     setRowsAndSelectedValues((prevState) => ({
       ...prevState,
@@ -70,15 +48,15 @@ export function InputsRow({ row }: InputRowProps) {
   return (
     <Container checked={checked}>
       <SelectInput setIsSelectOpen={toggleSelectOpen} row={row} />
-      {/* <DeleteButtonAnimationFrame
-        onClick={() => removeRow(row)}
+      <DeleteButtonAnimationFrame
+        // onClick={() => removeRow(row)}
         offsetX={offsetXByRow[row] || 0}
         offsetXByRow={offsetXByRow}
         isLastRow={isLastRow}
         type="button"
       >
         <Image src={TrashAnimation} alt="" width={20} height={20} />
-      </DeleteButtonAnimationFrame> */}
+      </DeleteButtonAnimationFrame>
       {!checked ? (
         <>
           <NumberValueInput
