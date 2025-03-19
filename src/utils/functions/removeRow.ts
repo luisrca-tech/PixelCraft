@@ -34,6 +34,11 @@ export const useRemoveRow = () => {
                         }
                     });
 
+
+                    if (removedRows.length === 1) {
+                        window.location.href = "/projetos"
+                    }
+
                     return {
                         rows: removedRows,
                         selectedValues: updatedSelectedValues,

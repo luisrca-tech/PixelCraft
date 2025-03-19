@@ -10,6 +10,7 @@ import { api } from "~/trpc/react";
 import { useSession } from "@clerk/nextjs";
 import { showToast } from "~/utils/functions/showToast";
 
+
 export interface ChargeFieldSelectedValue {
   chargeValueNumber: number;
   hoursPerMonthValueNumber: number;
@@ -258,6 +259,7 @@ export function useProcessRows() {
       showToast("error", hasAuthErrors ? toastMessages.auth : toastMessages.generic);
     };
 
+    window.location.href = "/projetos";
     return deleteResults;
   }
 
