@@ -29,7 +29,7 @@ export function FormForPeople() {
   const roles = getTasksInfos();
   const updateTaskNameInClickUp =
     api.clickup.updateTaskNameInClickUp.useMutation();
-  const updateTaskNameInDb = api.clickup.updateTaskNameInDb.useMutation();
+  const updateTaskNameInDb = api.task.updateTaskNameInDb.useMutation();
   const [isLoading, setIsLoading] = useAtom(loadingAtom);
   const [, setPeopleState] = useAtom(allocatedPeopleAtom);
 

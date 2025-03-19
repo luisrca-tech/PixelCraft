@@ -346,25 +346,5 @@ export const clickupRouter = createTRPCRouter({
       }
     }),
 
-  updateTaskNameInDb: publicProcedure
-    .input(
-      updateTaskNameInDbSchema
-    )
-    .mutation(async ({ ctx, input }) => {
-      const { taskId, name } = input
-      const task = await ctx.db.tasks.update({
-        where: {
-          id: taskId,
-        },
-        data: {
-          name,
-        },
-      });
-
-      return task;
-    }),
-
-
-
 
 });
