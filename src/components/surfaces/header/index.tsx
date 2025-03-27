@@ -32,6 +32,17 @@ export default function Header() {
   const isPersonsPage = currentPath.startsWith("/pessoas");
   const isProjectsPage = currentPath.startsWith("/projetos");
 
+  const handleBack = () => {
+    const pagesToReload = ["/projeto"];
+
+    router.back();
+    if (pagesToReload.includes(currentPath)) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+  };
+
   if (isAuthPage) {
     return (
       <Container isAutentication={true}>
@@ -96,7 +107,7 @@ export default function Header() {
 
         <BackButtonContainer>
           <TextButton
-            action={() => router.back()}
+            action={handleBack}
             icon={<IoArrowBackSharp size={24} stroke="white" />}
           />
         </BackButtonContainer>
